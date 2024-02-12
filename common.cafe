@@ -1,0 +1,139 @@
+** execution labels - to track the thread execution progress **
+mod! LABEL {
+  [LabelI LabelR < Label]
+  ops l1 l2 l3 l4 l5 l6 l7 l8 : -> LabelI {constr} .
+  ops f1 f2 f3 f4 f5 f6 f7 f8 : -> LabelR {constr} .
+  eq (I:LabelI = R:LabelR) = false .
+  eq (l1 = l2) = false .
+  eq (l1 = l3) = false .
+  eq (l1 = l4) = false .
+  eq (l1 = l5) = false .
+  eq (l1 = l6) = false .
+  eq (l1 = l7) = false .
+  eq (l1 = l8) = false .
+  eq (l2 = l3) = false .
+  eq (l2 = l4) = false .
+  eq (l2 = l5) = false .
+  eq (l2 = l6) = false .
+  eq (l2 = l7) = false .
+  eq (l2 = l8) = false .
+  eq (l3 = l4) = false .
+  eq (l3 = l5) = false .
+  eq (l3 = l6) = false .
+  eq (l3 = l7) = false .
+  eq (l3 = l8) = false .
+  eq (l4 = l5) = false .
+  eq (l4 = l6) = false .
+  eq (l4 = l7) = false .
+  eq (l4 = l8) = false .
+  eq (l5 = l6) = false .
+  eq (l5 = l7) = false .
+  eq (l5 = l8) = false .
+  eq (l6 = l7) = false .
+  eq (l6 = l8) = false .
+  eq (l7 = l8) = false .
+
+  eq (f1 = f2) = false .
+  eq (f1 = f3) = false .
+  eq (f1 = f4) = false .
+  eq (f1 = f5) = false .
+  eq (f1 = f6) = false .
+  eq (f1 = f7) = false .
+  eq (f1 = f8) = false .
+  eq (f2 = f3) = false .
+  eq (f2 = f4) = false .
+  eq (f2 = f5) = false .
+  eq (f2 = f6) = false .
+  eq (f2 = f7) = false .
+  eq (f2 = f8) = false .
+  eq (f3 = f4) = false .
+  eq (f3 = f5) = false .
+  eq (f3 = f6) = false .
+  eq (f3 = f7) = false .
+  eq (f3 = f8) = false .
+  eq (f4 = f5) = false .
+  eq (f4 = f6) = false .
+  eq (f4 = f7) = false .
+  eq (f4 = f8) = false .
+  eq (f5 = f6) = false .
+  eq (f5 = f7) = false .
+  eq (f5 = f8) = false .
+  eq (f6 = f7) = false .
+  eq (f6 = f8) = false .
+  eq (f7 = f8) = false .
+}
+
+-- we only deal with unsigned integers
+mod! UNSIGNED-INT {
+  [Zero NzUInt < UInt]
+  op 0 : -> Zero {constr}
+  op s : UInt -> NzUInt {constr}
+  ops 1 2 3 4 5 6 7 8 9 : -> NzUInt .
+  op _+_ : UInt UInt -> UInt {assoc comm prec: 33 }
+  op _<_ : UInt UInt -> Bool { prec: 51 }
+  op _<=_ : UInt UInt -> Bool { prec: 51 }
+  vars I I2 : UInt
+
+  eq (0 = s(I)) = false .
+  eq (0 = NI:NzUInt) = false .
+  eq 1 = s(0) .
+  eq (s(I) = s(I2)) = (I = I2) .
+  eq I + 0 = I .
+  eq I + s(I2) = s(I + I2) .
+  eq (0 < s(I)) = true .
+  eq (I < s(I)) = true .
+  eq (I < 0) = false .
+  eq (I < I) = false .
+  eq (s(I) < I) = false .
+  eq (s(I) < s(I2)) = (I < I2) .
+  eq (I <= I2) = (I < s(I2)) .
+
+-- trivial lemmas
+  ceq (s(I) < I2) = false if not(I < I2) .
+  ceq (I < s(I2)) = true if (I < I2) .
+  ceq (I < s(I2)) = (I = I2) if not(I < I2) .
+
+  eq 2 = s(1) .
+  eq 3 = s(2) .
+  eq 4 = s(3) .
+  eq 5 = s(4) .
+  eq 6 = s(5) .
+  eq 7 = s(6) .
+  eq 8 = s(7) .
+  eq 9 = s(8) .
+}
+mod* VALUE {
+  pr(UNSIGNED-INT)
+  [UInt Null < UInt&Null]
+  op null : -> Null {constr}
+  eq (I:UInt = null) = false .
+}
+mod! POINTER {
+  [Addr Nil < Addr&Nil] -- memory address
+  op nil : -> Nil {constr}
+  eq (X:Addr = nil) = false .
+}
+mod! SET (D :: TRIV) {
+  [Elt.D < Set]
+  op empty : -> Set {constr}
+  op _,_ : Set Set -> Set {assoc constr comm idem id: empty}
+  op _\in_ : Elt.D Set -> Bool
+  op delete : Elt.D Set -> Set 
+  vars S S2 : Set
+  vars E1 E2 : Elt.D
+  eq (E1 = empty) = false .
+  eq E1 \in empty = false .
+  eq E1 \in E2 = (E1 = E2) .
+  eq E1 \in (E2 , S) = (E1 = E2) or (E1 \in S) .
+  eq delete(E1, empty) = empty .
+  eq delete(E1, (E2 , S)) = 
+    (if E1 = E2 then S else (E2 , delete(E1,S)) fi) .
+
+-- lemmas
+  ceq E1 \in delete(E2,S) = false if not(E1 \in S) .
+  ceq E1 \in delete(E2,S) = not(E1 = E2)
+    if E1 \in S .
+}
+view TRIV2ADDR from TRIV to POINTER {
+  sort Elt -> Addr
+}
