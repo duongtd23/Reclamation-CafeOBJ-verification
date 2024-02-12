@@ -1,0 +1,40 @@
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq top(s) = tp(s,t2) .
+  eq tp(s,t2) = next(s,nd(s,t2)) .
+  eq k = 0 .
+  red p5(s,t,t2,x) implies p6(s,t,t2,x,k) .
+close
+
+open PROP .
+  ops k k2 : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq top(s) = tp(s,t2) .
+  eq tp(s,t2) = next(s,nd(s,t2)) .
+  eq k = s(k2) .
+  red p7(s,t,x,k2) implies p6(s,t,t2,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq top(s) = tp(s,t2) .
+  eq (tp(s,t2) = next(s,nd(s,t2))) = false .
+  red p8(s,t2) implies p6(s,t,t2,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq (top(s) = tp(s,t2)) = false .
+  red p6(s,t,t2,x,k) .
+close

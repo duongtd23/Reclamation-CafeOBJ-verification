@@ -1,0 +1,28 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq iter(s,t) < s(t2) = true .
+  eq t2 < s(N) = true .
+  red lm1(iter(s,t),N,t2) implies rc-lm4(s,t,t2,x)  .
+close
+
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq iter(s,t) < s(t2) = true .
+  eq (t2 < s(N)) = false .
+  red rc-lm5(s,t2,x) implies rc-lm4(s,t,t2,x)  .
+close
+
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq iter(s,t) < s(t2) = false .
+  red rc-lm3(s,t,t2,x) implies rc-lm4(s,t,t2,x)  .
+close

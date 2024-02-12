@@ -1,0 +1,49 @@
+ipsgopen PROP .
+  generate rc-lm1(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-lm1.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p6(S:Sys, T:UInt, X:Addr) .
+  inv rc-lm4(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate rc-lm2(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-lm2.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p6(S:Sys, T:UInt, X:Addr) .
+  inv rc-lm6(S:Sys, T:UInt, X:Addr) .
+  generate rc-lm3(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-lm3.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  generate rc-lm5(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-lm5.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  generate rc-lm6(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-lm6.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-detach-lm1(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate rc-lm7(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-lm7.cafe .
+:save-proof .
+
+eof
+load properties.cafe .
+load inputs/input-rc-lm.cafe .

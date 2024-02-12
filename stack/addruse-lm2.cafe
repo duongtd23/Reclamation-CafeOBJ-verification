@@ -1,0 +1,5 @@
+open PROP .
+  op s : -> Sys .
+  op x : -> Addr .
+  red addruse-lm4(s,x,0) implies addruse-lm2(s,x) .
+close

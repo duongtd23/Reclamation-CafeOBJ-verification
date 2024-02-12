@@ -1,0 +1,583 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  red p6(init,t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red p6(s,t,x) implies p6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  red p6(s,t,x) implies p6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p6(s,t,x) implies p6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red p6(s,t,x) implies p6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red p6(s,t,x) implies p6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  red p6(s,t,x) implies p6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p6(s,t,x) implies p6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = false .
+  red p6(s,t,x) implies p6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red p6(s,t,x) implies p6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  red p6(s,t,x) implies p6(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq (pc(s,r1) = l5) = false .
+  red p6(s,t,x) implies p6(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (v(s,r1) = r2) = false .
+  red p6(s,t,x) implies p6(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  red p6(s,t,x) implies p6(assign-p(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red p6(s,t,x) implies p6(assign-p(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  red p6(s,t,x) implies p6(assign-v(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red p6(s,t,x) implies p6(assign-v(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq p(s,r1) = counter(s) .
+  eq m(s,t) = x .
+  eq counter(s) = x .
+  red p6(s,t,x) implies p6(cas(s,r1),t,x) .
+close
+
+--> true, use p7 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq p(s,r1) = counter(s) .
+  eq m(s,t) = x .
+  eq (counter(s) = x) = false .
+  eq n(s,r1) = x .
+  red p7(s,r1,t,x) implies (p6(s,t,x) implies p6(cas(s,r1),t,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq p(s,r1) = counter(s) .
+  eq m(s,t) = x .
+  eq (counter(s) = x) = false .
+  eq (n(s,r1) = x) = false .
+  red p6(s,t,x) implies p6(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq p(s,r1) = counter(s) .
+  eq (m(s,t) = x) = false .
+  red p6(s,t,x) implies p6(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (p(s,r1) = counter(s)) = false .
+  red p6(s,t,x) implies p6(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red p6(s,t,x) implies p6(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  red p6(s,t,x) implies p6(ch-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red p6(s,t,x) implies p6(ch-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq t = r1 .
+  eq isfree(s,r1) = true .
+  red p6(s,t,x) implies p6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq t = r1 .
+  eq isfree(s,r1) = false .
+  red p6(s,t,x) implies p6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  red p6(s,t,x) implies p6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq (pc(s,r1) = f7) = false .
+  red p6(s,t,x) implies p6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (m(s,r1) = r2) = false .
+  red p6(s,t,x) implies p6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  red p6(s,t,x) implies p6(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq (pc(s,r1) = f1) = false .
+  red p6(s,t,x) implies p6(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (p(s,r1) = r2) = false .
+  red p6(s,t,x) implies p6(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq x = r2 .
+  eq counter(s) = r2 .
+  eq m(s,r1) = r2 .
+  red p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true, use detached-lm1 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq x = r2 .
+  eq counter(s) = r2 .
+  eq (m(s,r1) = r2) = false .
+  red detached-lm1(s,r1,r2) implies (p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq x = r2 .
+  eq (counter(s) = r2) = false .
+  red p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq (x = r2) = false .
+  red p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  red p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red p6(s,t,x) implies p6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  red p6(s,t,x) implies p6(rd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red p6(s,t,x) implies p6(rd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  red p6(s,t,x) implies p6(reclaim(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red p6(s,t,x) implies p6(reclaim(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  red p6(s,t,x) implies p6(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red p6(s,t,x) implies p6(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  red p6(s,t,x) implies p6(set-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red p6(s,t,x) implies p6(set-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  red p6(s,t,x) implies p6(upd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red p6(s,t,x) implies p6(upd-detached(s,r1),t,x) .
+close
+
+--> Time taken is 614ms

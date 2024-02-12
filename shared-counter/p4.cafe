@@ -1,0 +1,17 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq hp(s,t2) = x .
+  red rc-lm2(s,t,t2,x) implies p4(s,t,t2,x) .
+close
+
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (hp(s,t2) = x) = false .
+  red rc-lm1(s,t2,x) implies p4(s,t,t2,x) .
+close

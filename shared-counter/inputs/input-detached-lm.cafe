@@ -1,0 +1,34 @@
+ipsgopen PROP .
+  inv rc-addr-lm2(S:Sys, T:UInt, X:Addr) .
+  inv detached-lm3(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p6(S:Sys, T:UInt,X:Addr) .
+  inv p8(S:Sys, T:UInt, X:Addr) .
+  inv p9(S:Sys, T:UInt,T2:UInt,X:Addr) .
+  generate detached-lm1(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output detached-lm1.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv detached-lm1(S:Sys, T:UInt, X:Addr) .
+  inv p9(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p10(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate detached-lm2(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output detached-lm2.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-addr-lm2(S:Sys, T:UInt, X:Addr) .
+  inv p5(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p12(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate detached-lm3(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output detached-lm3.cafe .
+:save-proof .
+-- eof
+
+eof
+load inputs/input-detached-lm.cafe .

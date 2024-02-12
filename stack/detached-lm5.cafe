@@ -1,0 +1,1032 @@
+--> true
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  red detached-lm5(init,t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(alloc-n(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(alloc-n(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(alloc-n(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(alloc-n(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l8) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(alloc-n(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-hp(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-hp(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-hp(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-hp(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l5 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-n(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l5) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-n(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-p(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-p(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-v(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(assign-v(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq nextk(n(s,r1),k) = x .
+  eq nextk(p(s,r1),k) = x .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k) .
+close
+
+--> true, use detached-lm2 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq nextk(n(s,r1),k) = x .
+  eq (nextk(p(s,r1),k) = x) = false .
+  eq (x \in detached(s,t)) = true .
+  red detached-lm2(s,r1,t,x,k) implies (detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k)) .
+close
+
+--> true, use detached-lm2 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq nextk(n(s,r1),k) = x .
+  eq (nextk(p(s,r1),k) = x) = false .
+  eq (x \in detached(s,t)) = false .
+  eq (x \in inuse(s,t)) = true .
+  red detached-lm2(s,r1,t,x,k) implies (detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq nextk(n(s,r1),k) = x .
+  eq (nextk(p(s,r1),k) = x) = false .
+  eq (x \in detached(s,t)) = false .
+  eq (x \in inuse(s,t)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (nextk(n(s,r1),k) = x) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (top(s) = p(s,r1)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq nextk(nd(s,r1),k) = x .
+  eq nextk(tp(s,r1),k) = x .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k) .
+close
+
+--> true, use detached-lm4 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq nextk(nd(s,r1),k) = x .
+  eq (nextk(tp(s,r1),k) = x) = false .
+  eq (x \in detached(s,t)) = true .
+  red detached-lm4(s,r1,t,x,k) implies (detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k)) .
+close
+
+--> true, use detached-lm4 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq nextk(nd(s,r1),k) = x .
+  eq (nextk(tp(s,r1),k) = x) = false .
+  eq (x \in detached(s,t)) = false .
+  eq (x \in inuse(s,t)) = true .
+  red detached-lm4(s,r1,t,x,k) implies (detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq nextk(nd(s,r1),k) = x .
+  eq (nextk(tp(s,r1),k) = x) = false .
+  eq (x \in detached(s,t)) = false .
+  eq (x \in inuse(s,t)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (nextk(nd(s,r1),k) = x) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq (top(s) = tp(s,r1)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l12) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(cas2(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(ch-isfree(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(ch-isfree(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(ch-p(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(ch-p(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq nextk(top(s),k) = r2 .
+  eq (r2 \in detached(s,r1)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq nextk(top(s),k) = r2 .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true, use p10 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq nextk(top(s),k) = r2 .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = false .
+  red p10(s,r1,r2,k) implies (detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq (nextk(top(s),k) = r2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq (x = r2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  eq (t = r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq (m(s,r1) = r2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f7) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(free(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  eq t = r1 .
+  eq x = r2 .
+  eq nextk(top(s),k) = r2 .
+  eq (r2 \in detached(s,r1)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  eq t = r1 .
+  eq x = r2 .
+  eq nextk(top(s),k) = r2 .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true, use p24 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  eq t = r1 .
+  eq x = r2 .
+  eq nextk(top(s),k) = r2 .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = false .
+  red p24(s,r1,r2,k) implies (detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  eq t = r1 .
+  eq x = r2 .
+  eq (nextk(top(s),k) = r2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  eq t = r1 .
+  eq (x = r2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  eq (t = r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq (p(s,r1) = r2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(insert-p(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l10 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(load-top(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l10) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(load-top(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq nextk(top(s),k) = x .
+  eq (x \in detached(s,r1)) = true .
+  red detached-lm5(s,t,x,k) implies detached-lm5(pop-detach(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq nextk(top(s),k) = x .
+  eq (x \in detached(s,r1)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(pop-detach(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq (nextk(top(s),k) = x) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(pop-detach(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(pop-detach(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(pop-detach(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(pop-detach(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(rd-detached(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(rd-detached(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(reclaim(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(reclaim(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = idle .
+  red detached-lm5(s,t,x,k) implies detached-lm5(run-pop(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = idle) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(run-pop(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = idle .
+  red detached-lm5(s,t,x,k) implies detached-lm5(run-push(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = idle) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(run-push(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq t = r1 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-inuse(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq (t = r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-inuse(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-inuse(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-isfree(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-isfree(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l11 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-next(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l11) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-next(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l9 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-val(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l9) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(set-val(s,r1,r2),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq t = r1 .
+  red detached-lm5(s,t,x,k) implies detached-lm5(upd-detached(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq (t = r1) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(upd-detached(s,r1),t,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red detached-lm5(s,t,x,k) implies detached-lm5(upd-detached(s,r1),t,x,k) .
+close
+
+--> Time taken is 1941ms

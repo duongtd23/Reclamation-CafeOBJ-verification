@@ -1,0 +1,752 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  red rc-addr-lm2(init,t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq (pc(s,r1) = l5) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (v(s,r1) = r2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-p(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-p(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-v(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(assign-v(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(ch-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(ch-isfree(s,r1),t,x) .
+close
+
+--> true, use rc-detach-lm2 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = true .
+  eq (x \in addrInUse(s)) = true .
+  eq r2 = x .
+  eq (x \in detached(s,t)) = true .
+  red rc-detach-lm2(s,r1,t,x) implies (rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x)) .
+close
+
+--> true, use rc-detach-lm2 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = true .
+  eq (x \in addrInUse(s)) = true .
+  eq r2 = x .
+  eq (x \in detached(s,t)) = false .
+  eq (x \in inuse(s,t)) = true .
+  red rc-detach-lm2(s,r1,t,x) implies (rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = true .
+  eq (x \in addrInUse(s)) = true .
+  eq r2 = x .
+  eq (x \in detached(s,t)) = false .
+  eq (x \in inuse(s,t)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = true .
+  eq (x \in addrInUse(s)) = true .
+  eq (r2 = x) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = true .
+  eq (x \in addrInUse(s)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (r2 \in detached(s,r1)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true, use rc-addr-lm1 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = false .
+  red rc-addr-lm1(s,r1,r2) implies (rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = false .
+  eq t = r1 .
+  eq (x = r2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq isfree(s,r1) = false .
+  eq (t = r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq (pc(s,r1) = f7) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (m(s,r1) = r2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (r2 \in detached(s,r1)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true, use addruse-lm3 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq x = r2 .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (r2 \in detached(s,r1)) = false .
+  eq (r2 \in inuse(s,r1)) = false .
+  red addruse-lm3(s,r1,r2) implies (rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq (x = r2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq (t = r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq (pc(s,r1) = f1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (p(s,r1) = r2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq (x \in addrInUse(s)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq (x \in addrInUse(s)) = false .
+  eq (x \in detached(s,r1)) = true .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq (x \in addrInUse(s)) = false .
+  eq (x \in detached(s,r1)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(rd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(rd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(reclaim(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(reclaim(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq t = r1 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq (t = r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(set-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(set-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq t = r1 .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(upd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq (t = r1) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(upd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red rc-addr-lm2(s,t,x) implies rc-addr-lm2(upd-detached(s,r1),t,x) .
+close
+
+--> Time taken is 728ms

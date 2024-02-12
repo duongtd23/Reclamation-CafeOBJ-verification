@@ -1,0 +1,12 @@
+ipsgopen PROP .
+  inv addruse-lm2(S:Sys, T:UInt, X:Addr) .
+  generate p11(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output p11.cafe .
+:save-proof .
+eof
+
+-- set maxLogConn = 20 .
+
+load properties.cafe .
+load inputs/input11.cafe .

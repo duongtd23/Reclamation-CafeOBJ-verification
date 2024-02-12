@@ -1,0 +1,37 @@
+ipsgopen PROP .
+  inv rc-lm7(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p9(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv rc-detach-lm4(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate rc-detach-lm1(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-detach-lm1.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-detach-lm5(S:Sys, T:UInt, X:Addr) .
+  generate rc-detach-lm3(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-detach-lm3.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-detach-lm1(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv detached-lm2(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate rc-detach-lm4(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-detach-lm4.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-detach-lm3(S:Sys, T:UInt, X:Addr) .
+  generate rc-detach-lm5(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-detach-lm5.cafe .
+:save-proof .
+-- eof
+
+eof
+load inputs/input-rc-detach.cafe .

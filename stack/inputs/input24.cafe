@@ -1,0 +1,11 @@
+ipsgopen PROP .
+  inv p26(S:Sys, T:UInt, T2:UInt, X:Addr, K:UInt) .
+  inv p28(S:Sys, T:UInt, T2:UInt, X:Addr, K:UInt) .
+  inv p27(S:Sys, T:UInt, K:UInt) .
+  generate p24(S:Sys, T:UInt, X:Addr, K:UInt) induction on S:Sys .
+close
+set-output p24.cafe .
+:save-proof .
+eof
+
+load inputs/input24.cafe .

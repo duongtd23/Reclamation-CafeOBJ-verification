@@ -1,0 +1,25 @@
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq top(s) = p(s,t) .
+  eq n(s,t) = next(s,p(s,t)) .
+  red p32(s,k) implies p31(s,t,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq top(s) = p(s,t) .
+  eq (n(s,t) = next(s,p(s,t))) = false .
+  red p2(s,t) implies p31(s,t,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (top(s) = p(s,t)) = false .
+  red p31(s,t,k) .
+close

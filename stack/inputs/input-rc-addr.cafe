@@ -1,0 +1,20 @@
+ipsgopen PROP .
+  inv rc-lm7(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv rc-addr-lm2(S:Sys, T:UInt, X:Addr) .
+  generate rc-addr-lm1(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-addr-lm1.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-addr-lm1(S:Sys, T:UInt, X:Addr) .
+  inv rc-detach-lm4(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv addruse-lm1(S:Sys, T:UInt, X:Addr) .
+  generate rc-addr-lm2(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output rc-addr-lm2.cafe .
+:save-proof .
+
+eof
+load inputs/input-rc-addr.cafe .

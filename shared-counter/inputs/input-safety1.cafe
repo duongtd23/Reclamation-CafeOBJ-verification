@@ -1,0 +1,12 @@
+ipsgopen PROP .
+  inv p1(S:Sys, T:UInt) .
+  inv p4(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate safety1(S:Sys, T:UInt) induction on S:Sys .
+close
+set-output safety1.cafe .
+:save-proof .
+
+eof
+
+load properties.cafe .
+load inputs/input-safety1.cafe .

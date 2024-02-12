@@ -1,0 +1,25 @@
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq next(s,nd(s,t)) = nil .
+  red p29(s,t,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (next(s,nd(s,t)) = nil) = false .
+  eq tp(s,t) = nil .
+  red p8(s,t) implies p29(s,t,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (next(s,nd(s,t)) = nil) = false .
+  eq (tp(s,t) = nil) = false .
+  red p29(s,t,k) .
+close

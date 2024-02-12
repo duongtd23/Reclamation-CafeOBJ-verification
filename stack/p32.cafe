@@ -1,0 +1,747 @@
+--> true
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  red p32(init,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red p32(s,k) implies p32(alloc-n(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  red p32(s,k) implies p32(alloc-n(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p32(s,k) implies p32(alloc-n(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = false .
+  red p32(s,k) implies p32(alloc-n(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq (pc(s,r1) = l8) = false .
+  red p32(s,k) implies p32(alloc-n(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  red p32(s,k) implies p32(assign-hp(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p32(s,k) implies p32(assign-hp(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red p32(s,k) implies p32(assign-hp(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l1) = false .
+  red p32(s,k) implies p32(assign-hp(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l5 .
+  red p32(s,k) implies p32(assign-n(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l5) = false .
+  red p32(s,k) implies p32(assign-n(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l2 .
+  red p32(s,k) implies p32(assign-p(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l2) = false .
+  red p32(s,k) implies p32(assign-p(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l4 .
+  red p32(s,k) implies p32(assign-v(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l4) = false .
+  red p32(s,k) implies p32(assign-v(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq n(s,r1) = nil .
+  red p32(s,k) implies p32(cas(s,r1),k) .
+close
+
+--> true, use p2 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (n(s,r1) = nil) = false .
+  eq p(s,r1) = nil .
+  eq nextk(next(s,n(s,r1)),k) = n(s,r1) .
+  red p2(s,r1) implies (p32(s,k) implies p32(cas(s,r1),k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (n(s,r1) = nil) = false .
+  eq p(s,r1) = nil .
+  eq (nextk(next(s,n(s,r1)),k) = n(s,r1)) = false .
+  red p32(s,k) implies p32(cas(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (n(s,r1) = nil) = false .
+  eq (p(s,r1) = nil) = false .
+  eq nextk(next(s,n(s,r1)),k) = n(s,r1) .
+  eq nextk(next(s,p(s,r1)),k) = p(s,r1) .
+  red p32(s,k) implies p32(cas(s,r1),k) .
+close
+
+--> true, use p31 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (n(s,r1) = nil) = false .
+  eq (p(s,r1) = nil) = false .
+  eq nextk(next(s,n(s,r1)),k) = n(s,r1) .
+  eq (nextk(next(s,p(s,r1)),k) = p(s,r1)) = false .
+  red p31(s,r1,k) implies (p32(s,k) implies p32(cas(s,r1),k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (n(s,r1) = nil) = false .
+  eq (p(s,r1) = nil) = false .
+  eq (nextk(next(s,n(s,r1)),k) = n(s,r1)) = false .
+  red p32(s,k) implies p32(cas(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l6 .
+  eq (top(s) = p(s,r1)) = false .
+  red p32(s,k) implies p32(cas(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l6) = false .
+  red p32(s,k) implies p32(cas(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq nd(s,r1) = nil .
+  red p32(s,k) implies p32(cas2(s,r1),k) .
+close
+
+--> true, use p29 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq tp(s,r1) = nil .
+  eq nextk(next(s,nd(s,r1)),k) = nd(s,r1) .
+  red p29(s,r1,k) implies (p32(s,k) implies p32(cas2(s,r1),k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq tp(s,r1) = nil .
+  eq (nextk(next(s,nd(s,r1)),k) = nd(s,r1)) = false .
+  red p32(s,k) implies p32(cas2(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq (tp(s,r1) = nil) = false .
+  eq nextk(next(s,nd(s,r1)),k) = nd(s,r1) .
+  eq nextk(next(s,tp(s,r1)),k) = tp(s,r1) .
+  red p32(s,k) implies p32(cas2(s,r1),k) .
+close
+
+--> true, use p30 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq (tp(s,r1) = nil) = false .
+  eq nextk(next(s,nd(s,r1)),k) = nd(s,r1) .
+  eq (nextk(next(s,tp(s,r1)),k) = tp(s,r1)) = false .
+  red p30(s,r1,k) implies (p32(s,k) implies p32(cas2(s,r1),k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq (tp(s,r1) = nil) = false .
+  eq (nextk(next(s,nd(s,r1)),k) = nd(s,r1)) = false .
+  red p32(s,k) implies p32(cas2(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l12 .
+  eq (top(s) = tp(s,r1)) = false .
+  red p32(s,k) implies p32(cas2(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l12) = false .
+  red p32(s,k) implies p32(cas2(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = f6 .
+  red p32(s,k) implies p32(ch-isfree(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = f6) = false .
+  red p32(s,k) implies p32(ch-isfree(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l3 .
+  red p32(s,k) implies p32(ch-p(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l3) = false .
+  red p32(s,k) implies p32(ch-p(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  eq top(s) = r2 .
+  red p32(s,k) implies p32(free(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  eq (top(s) = r2) = false .
+  red p32(s,k) implies p32(free(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  red p32(s,k) implies p32(free(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f7 .
+  eq (m(s,r1) = r2) = false .
+  red p32(s,k) implies p32(free(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq (pc(s,r1) = f7) = false .
+  red p32(s,k) implies p32(free(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  red p32(s,k) implies p32(insert-p(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f1 .
+  eq (p(s,r1) = r2) = false .
+  red p32(s,k) implies p32(insert-p(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq (pc(s,r1) = f1) = false .
+  red p32(s,k) implies p32(insert-p(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l10 .
+  red p32(s,k) implies p32(load-top(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l10) = false .
+  red p32(s,k) implies p32(load-top(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  red p32(s,k) implies p32(pop-detach(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red p32(s,k) implies p32(pop-detach(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  eq (pc(s,r1) = f5) = false .
+  red p32(s,k) implies p32(pop-detach(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = f3 .
+  red p32(s,k) implies p32(rd-detached(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = f3) = false .
+  red p32(s,k) implies p32(rd-detached(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l7 .
+  red p32(s,k) implies p32(reclaim(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l7) = false .
+  red p32(s,k) implies p32(reclaim(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = idle .
+  red p32(s,k) implies p32(run-pop(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = idle) = false .
+  red p32(s,k) implies p32(run-pop(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = idle .
+  red p32(s,k) implies p32(run-push(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = idle) = false .
+  red p32(s,k) implies p32(run-push(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = f2 .
+  red p32(s,k) implies p32(set-inuse(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = f2) = false .
+  red p32(s,k) implies p32(set-inuse(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = f4 .
+  red p32(s,k) implies p32(set-isfree(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = f4) = false .
+  red p32(s,k) implies p32(set-isfree(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l11 .
+  eq top(s) = nd(s,r1) .
+  eq nd(s,r1) = nil .
+  red p32(s,k) implies p32(set-next(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l11 .
+  eq top(s) = nd(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq nextk(tp(s,r1),k) = nd(s,r1) .
+  eq nextk(next(s,nd(s,r1)),k) = nd(s,r1) .
+  red p32(s,k) implies p32(set-next(s,r1),k) .
+close
+
+--> true, use p4 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l11 .
+  eq top(s) = nd(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq nextk(tp(s,r1),k) = nd(s,r1) .
+  eq (nextk(next(s,nd(s,r1)),k) = nd(s,r1)) = false .
+  red p4(s,r1) implies (p32(s,k) implies p32(set-next(s,r1),k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l11 .
+  eq top(s) = nd(s,r1) .
+  eq (nd(s,r1) = nil) = false .
+  eq (nextk(tp(s,r1),k) = nd(s,r1)) = false .
+  red p32(s,k) implies p32(set-next(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l11 .
+  eq (top(s) = nd(s,r1)) = false .
+  red p32(s,k) implies p32(set-next(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l11) = false .
+  red p32(s,k) implies p32(set-next(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = l9 .
+  red p32(s,k) implies p32(set-val(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = l9) = false .
+  red p32(s,k) implies p32(set-val(s,r1,r2),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq pc(s,r1) = f8 .
+  red p32(s,k) implies p32(upd-detached(s,r1),k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  eq (pc(s,r1) = f8) = false .
+  red p32(s,k) implies p32(upd-detached(s,r1),k) .
+close
+
+--> Time taken is 1672ms

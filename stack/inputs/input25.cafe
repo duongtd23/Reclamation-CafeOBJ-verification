@@ -1,0 +1,9 @@
+ipsgopen PROP .
+  inv p22(S:Sys, T:UInt, X:Addr) .
+  generate p25(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output p25.cafe .
+:save-proof .
+eof
+
+load inputs/input25.cafe .

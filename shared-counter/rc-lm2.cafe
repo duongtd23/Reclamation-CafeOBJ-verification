@@ -1,0 +1,1275 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  red rc-lm2(init,t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq (t = r1) = false .
+  eq counter(s) = x .
+  eq m(s,t) = x .
+  eq pc(s,t) = f7 .
+  eq hp(s,r1) = x .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true, use p6 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq (t = r1) = false .
+  eq counter(s) = x .
+  eq m(s,t) = x .
+  eq pc(s,t) = f7 .
+  eq (hp(s,r1) = x) = false .
+  eq isfree(s,t) = true .
+  red p6(s,t,x) implies (rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq (t = r1) = false .
+  eq counter(s) = x .
+  eq m(s,t) = x .
+  eq pc(s,t) = f7 .
+  eq (hp(s,r1) = x) = false .
+  eq isfree(s,t) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq (t = r1) = false .
+  eq counter(s) = x .
+  eq m(s,t) = x .
+  eq (pc(s,t) = f7) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq (t = r1) = false .
+  eq counter(s) = x .
+  eq (m(s,t) = x) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t2 = r1 .
+  eq (t = r1) = false .
+  eq (counter(s) = x) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (t2 = r1) = false .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (t2 = r1) = false .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq (pc(s,r1) = l5) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (v(s,r1) = r2) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = true .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq (iter(s,r1) = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = false .
+  eq (hp(s,iter(s,r1)) = m(s,r1)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq iter(s,r1) = N .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq (iter(s,r1) = N) = false .
+  eq t2 = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true, use rc-lm4 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq (iter(s,r1) = N) = false .
+  eq (t2 = r1) = false .
+  eq hp(s,t2) = x .
+  eq m(s,r1) = x .
+  red rc-lm4(s,r1,t2,x) implies (rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq (iter(s,r1) = N) = false .
+  eq (t2 = r1) = false .
+  eq hp(s,t2) = x .
+  eq (m(s,r1) = x) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq (iter(s,r1) = N) = false .
+  eq (t2 = r1) = false .
+  eq (hp(s,t2) = x) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = true .
+  eq isfree(s,N) = true .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = true .
+  eq isfree(s,N) = false .
+  eq hp(s,iter(s,N)) = m(s,N) .
+  eq iter(s,N) = N .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = true .
+  eq isfree(s,N) = false .
+  eq hp(s,iter(s,N)) = m(s,N) .
+  eq (iter(s,N) = N) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = true .
+  eq isfree(s,N) = false .
+  eq (hp(s,iter(s,N)) = m(s,N)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = false .
+  eq isfree(s,N) = true .
+  eq iter(s,N) = N .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = false .
+  eq isfree(s,N) = true .
+  eq (iter(s,N) = N) = false .
+  eq t2 = N .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true, use rc-lm4 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = false .
+  eq isfree(s,N) = true .
+  eq (iter(s,N) = N) = false .
+  eq (t2 = N) = false .
+  eq hp(s,t2) = x .
+  eq m(s,N) = x .
+  red rc-lm4(s,N,t2,x) implies (rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = false .
+  eq isfree(s,N) = true .
+  eq (iter(s,N) = N) = false .
+  eq (t2 = N) = false .
+  eq hp(s,t2) = x .
+  eq (m(s,N) = x) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = false .
+  eq isfree(s,N) = true .
+  eq (iter(s,N) = N) = false .
+  eq (t2 = N) = false .
+  eq (hp(s,t2) = x) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq pc(s,N) = f6 .
+  eq (iter(s,N) < N) = false .
+  eq isfree(s,N) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq r1 = N .
+  eq (pc(s,N) = f6) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq hp(s,N) = m(s,r1) .
+  eq (r1 = N) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq iter(s,r1) = N .
+  eq (hp(s,N) = m(s,r1)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq hp(s,iter(s,r1)) = m(s,r1) .
+  eq (iter(s,r1) = N) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  eq (hp(s,iter(s,r1)) = m(s,r1)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq (pc(s,r1) = f7) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (m(s,r1) = r2) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq (pc(s,r1) = f1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (p(s,r1) = r2) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq t = r1 .
+  eq detached(s,r1) = empty .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq t = r1 .
+  eq (detached(s,r1) = empty) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq t = r1 .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(upd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq (t = r1) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(upd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red rc-lm2(s,t,t2,x) implies rc-lm2(upd-detached(s,r1),t,t2,x) .
+close
+
+--> Time taken is 1020ms

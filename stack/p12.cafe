@@ -1,0 +1,14 @@
+open PROP .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  eq nd(s,t) = nil .
+  red p14(s,t) implies p12(s,t,t2) .
+close
+
+open PROP .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq nd(s,t) = x .
+  red p5(s,t,t2,x) implies p12(s,t,t2) .
+close

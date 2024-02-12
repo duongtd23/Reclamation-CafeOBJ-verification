@@ -1,0 +1,47 @@
+ipsgopen PROP .
+  inv p15(S:Sys,T:UInt) .
+  inv rc-lm8(S:Sys,T:UInt, T2:UInt, X:Addr) .
+  generate safety1(S:Sys, T:UInt) induction on S:Sys .
+close
+set-output safety1.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p33(S:Sys,T:UInt) .
+  inv rc-lm8(S:Sys,T:UInt, T2:UInt, X:Addr) .
+  generate p15(S:Sys,T:UInt) induction on S:Sys .
+close
+set-output p15.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p13(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate p19(S:Sys,T:UInt,X:Addr) induction on S:Sys .
+close
+set-output p19.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv safety3(S:Sys,T:UInt, X:Addr,K:UInt) .
+  inv p17(S:Sys,T:UInt,X:Addr,K:UInt) .
+  inv p18(S:Sys,T:UInt,X:Addr,K:UInt) .
+  generate p20(S:Sys,X:Addr,K:UInt) induction on S:Sys .
+close
+set-output p20.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p16(S:Sys,T:UInt) .
+  inv rc-lm2(S:Sys,T:UInt, T2:UInt, X:Addr) .
+  generate p33(S:Sys,T:UInt) induction on S:Sys .
+close
+set-output p33.cafe .
+:save-proof .
+eof
+
+load properties.cafe .
+load inputs/input-safety1.cafe .

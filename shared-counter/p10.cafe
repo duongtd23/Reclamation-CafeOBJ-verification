@@ -1,0 +1,1351 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  red p10(init,t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red p10(s,t,t2,x) implies p10(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p10(s,t,t2,x) implies p10(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = false .
+  red p10(s,t,t2,x) implies p10(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red p10(s,t,t2,x) implies p10(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq (pc(s,r1) = l5) = false .
+  red p10(s,t,t2,x) implies p10(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (v(s,r1) = r2) = false .
+  red p10(s,t,t2,x) implies p10(assign-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red p10(s,t,t2,x) implies p10(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red p10(s,t,t2,x) implies p10(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true, use p9 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t2) = x .
+  eq pc(s,t2) = f1 .
+  red p9(s,t2,r1,x) implies (p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x)) .
+close
+
+--> true, use p9 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t2) = x .
+  eq (pc(s,t2) = f1) = false .
+  eq pc(s,t2) = f2 .
+  red p9(s,t2,r1,x) implies (p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x)) .
+close
+
+--> true, use p9 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t2) = x .
+  eq (pc(s,t2) = f1) = false .
+  eq (pc(s,t2) = f2) = false .
+  eq pc(s,t2) = l7 .
+  red p9(s,t2,r1,x) implies (p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t2) = x .
+  eq (pc(s,t2) = f1) = false .
+  eq (pc(s,t2) = f2) = false .
+  eq (pc(s,t2) = l7) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq (p(s,t2) = x) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq p(s,r1) = counter(s) .
+  eq (counter(s) = x) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (p(s,r1) = counter(s)) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true, use p9 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t) = x .
+  eq pc(s,t) = f1 .
+  red p9(s,t,r1,x) implies (p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x)) .
+close
+
+--> true, use p9 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t) = x .
+  eq (pc(s,t) = f1) = false .
+  eq pc(s,t) = f2 .
+  red p9(s,t,r1,x) implies (p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x)) .
+close
+
+--> true, use p9 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t) = x .
+  eq (pc(s,t) = f1) = false .
+  eq (pc(s,t) = f2) = false .
+  eq pc(s,t) = l7 .
+  red p9(s,t,r1,x) implies (p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq p(s,t) = x .
+  eq (pc(s,t) = f1) = false .
+  eq (pc(s,t) = f2) = false .
+  eq (pc(s,t) = l7) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq p(s,r1) = counter(s) .
+  eq counter(s) = x .
+  eq (p(s,t) = x) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq p(s,r1) = counter(s) .
+  eq (counter(s) = x) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (p(s,r1) = counter(s)) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red p10(s,t,t2,x) implies p10(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = true .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq iter(s,r1) = N .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq (iter(s,r1) = N) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = true .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (iter(s,r1) < N) = true .
+  eq isfree(s,r1) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq iter(s,r1) = N .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = true .
+  eq (iter(s,r1) = N) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (iter(s,r1) < N) = false .
+  eq isfree(s,r1) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red p10(s,t,t2,x) implies p10(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq (pc(s,r1) = f7) = false .
+  red p10(s,t,t2,x) implies p10(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (m(s,r1) = r2) = false .
+  red p10(s,t,t2,x) implies p10(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq (pc(s,r1) = f1) = false .
+  red p10(s,t,t2,x) implies p10(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (p(s,r1) = r2) = false .
+  red p10(s,t,t2,x) implies p10(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red p10(s,t,t2,x) implies p10(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red p10(s,t,t2,x) implies p10(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq t = r1 .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq detached(s,r1) = empty .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  eq (detached(s,r1) = empty) = false .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq detached(s,r1) = empty .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  eq (detached(s,r1) = empty) = false .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red p10(s,t,t2,x) implies p10(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  eq t = r1 .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  eq t = r1 .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red p10(s,t,t2,x) implies p10(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red p10(s,t,t2,x) implies p10(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red p10(s,t,t2,x) implies p10(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq t = r1 .
+  red p10(s,t,t2,x) implies p10(upd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq (t = r1) = false .
+  eq t2 = r1 .
+  red p10(s,t,t2,x) implies p10(upd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  eq (t = r1) = false .
+  eq (t2 = r1) = false .
+  red p10(s,t,t2,x) implies p10(upd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red p10(s,t,t2,x) implies p10(upd-detached(s,r1),t,t2,x) .
+close
+
+--> Time taken is 5138ms

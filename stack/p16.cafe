@@ -1,0 +1,14 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq top(s) = nil .
+  red p16(s,t) .
+close
+
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq top(s) = x .
+  red p20(s,x,0) implies p16(s,t) .
+close

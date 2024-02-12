@@ -1,0 +1,231 @@
+** properties for the function reclaim(int *p)
+mod* RECLAIM-PROP {
+  pr(SHARED-COUNTER)
+
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars X X2 X3 : Addr
+  vars I I2 I3 : UInt 
+
+  -- no lm
+  op rc-lm1 : Sys UInt Addr -> Bool
+  eq rc-lm1(S,T,X) = 
+    (not(pc(S,T) = l3) and p(S,T) = X) 
+    implies (hp(S,T) = X) .
+
+-- p6 + rc-lm4 
+  op rc-lm2 : Sys UInt UInt Addr -> Bool
+  eq rc-lm2(S,T,T2,X) = 
+   (m(S,T) = X and pc(S,T) = f7 and isfree(S,T) and
+    not(T = T2)) 
+    implies not(hp(S,T2) = X) .
+
+-- p6 + rc-lm6
+  op rc-lm3 : Sys UInt UInt Addr -> Bool
+  eq rc-lm3(S,T,T2,X) = 
+   (m(S,T) = X and hp(S,T2) = X and not(T = T2) and
+    pc(S,T) = f6 and isfree(S,T)) 
+    implies (iter(S,T) < s(T2)) .
+
+-- rc-lm3 + rc-lm5, no ind
+  op rc-lm4 : Sys UInt UInt Addr -> Bool
+  eq rc-lm4(S,T,T2,X) = 
+   (m(S,T) = X and isfree(S,T) and 
+    pc(S,T) = f6 and not(iter(S,T) < N or iter(S,T) = N) and
+    not(T = T2)) 
+    implies not(hp(S,T2) = X) .
+
+-- no lm
+  op rc-lm5 : Sys UInt Addr -> Bool 
+  eq rc-lm5(S,T,X) = not(T <= N) implies not(hp(S,T) = X) .
+
+-- no lm
+  op rc-lm6 : Sys UInt Addr -> Bool 
+  eq rc-lm6(S,T,X) = (hp(S,T) = X) implies (0 < T) .
+
+-- rc-detach-lm1
+  op rc-lm7 : Sys UInt UInt Addr -> Bool
+  eq rc-lm7(S,T,T2,X) = 
+    not(m(S,T) = X and m(S,T2) = X and not(T = T2)) . 
+
+** lemmas helpers for detached set
+-- rc-detach-lm4 + p9 + rc-lm7
+  op rc-detach-lm1 : Sys UInt UInt Addr -> Bool
+  eq rc-detach-lm1(S,T,T2,X) = (m(S,T) = X and not(T = T2))
+    implies not(X \in detached(S,T2) or X \in inuse(S,T2)) .
+
+-- rc-detach-lm1 + rc-detach-lm3, no inc
+  op rc-detach-lm2 : Sys UInt UInt Addr -> Bool
+  eq rc-detach-lm2(S,T,T2,X) = (m(S,T) = X and
+      (pc(S,T) = f6 or pc(S,T) = f7)) 
+    implies not(X \in detached(S,T2) or X \in inuse(S,T2)) .
+
+-- rc-detach-lm5
+  op rc-detach-lm3 : Sys UInt Addr -> Bool
+  eq rc-detach-lm3(S,T,X) = (m(S,T) = X and
+      (pc(S,T) = f6 or pc(S,T) = f7)) 
+    implies not(X \in detached(S,T) or X \in inuse(S,T)) .
+
+-- rc-detach-lm1 + detached-lm2
+  op rc-detach-lm4 : Sys UInt UInt Addr -> Bool
+  eq rc-detach-lm4(S,T,T2,X) = (not(T = T2) and
+     (X \in detached(S,T) or X \in inuse(S,T)))
+    implies not(X \in detached(S,T2) or X \in inuse(S,T2)) .
+
+-- rc-detach-lm3
+  op rc-detach-lm5 : Sys UInt Addr -> Bool
+  eq rc-detach-lm5(S,T,X) = (X \in detached(S,T) and
+      (pc(S,T) = f3 or pc(S,T) = f4 or pc(S,T) = f5 or 
+       pc(S,T) = f6 or pc(S,T) = f7 or pc(S,T) = f8)) 
+    implies not(X \in inuse(S,T)) .
+
+** lemmas helpers for address in used 
+-- rc-addr-lm2 + rc-lm7
+  op rc-addr-lm1 : Sys UInt Addr -> Bool
+  eq rc-addr-lm1(S,T,X) = (m(S,T) = X) 
+    implies X \in addrInUse(S) .
+
+-- rc-addr-lm1 + addruse-lm3 + rc-detach-lm2
+  op rc-addr-lm2 : Sys UInt Addr -> Bool
+  eq rc-addr-lm2(S,T,X) = (X \in detached(S,T) or X \in inuse(S,T)) 
+    implies X \in addrInUse(S) .
+
+** numbers lemmas
+-- it is correct that not(I2 = I3)
+-- I2 < I3 same as not(I3 < s(I2)
+  op lm1 : UInt UInt UInt -> Bool 
+  eq lm1(I,I2,I3) = (not(I < I2) and not(I = I2) and I < s(I3)) 
+    implies not(I3 < s(I2)) .
+}
+
+mod* PROP {
+  ex(RECLAIM-PROP)
+
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars X X2 X3 : Addr
+  vars I I2 I3 : UInt 
+
+-- macros
+  op starting-reclaim : Sys UInt Addr -> Bool
+  eq starting-reclaim(S,T,X) = (p(S,T) = X and
+      (pc(S,T) = l7 or pc(S,T) = f1 or pc(S,T) = f2)) .
+
+  op before-cas : Sys UInt Addr -> Bool
+  eq before-cas(S,T,X) = (n(S,T) = X and
+    (pc(S,T) = l2 or pc(S,T) = l3 or pc(S,T) = l4 or 
+     pc(S,T) = l5 or pc(S,T) = l6)) .
+
+-- p1 + p4
+  op safety1 : Sys UInt -> Bool
+  eq safety1(S,T) = (pc(S,T) = l4) 
+    implies not(*(S,p(S,T)) = null or p(S,T) = nil) .
+
+-- prove by p6
+  op safety2 : Sys UInt Addr -> Bool
+  eq safety2(S,T,X) = 
+   (m(S,T) = X and pc(S,T) = f7 and isfree(S,T)) 
+    implies not(counter(S) = X) .
+
+-- p2 + rc-lm2
+  op p1 : Sys UInt -> Bool
+  eq p1(S,T) = (pc(S,T) = l3)
+    implies not(hp(S,T) = nil or *(S,hp(S,T)) = null) .
+-- p3 + p6
+  op p2 : Sys -> Bool
+  eq p2(S) = not(*(S,counter(S)) = null) .
+
+-- p5
+  op p3 : Sys UInt -> Bool
+  eq p3(S,T) = (pc(S,T) = l6) 
+    implies not(*(S,n(S,T)) = null) .
+
+-- rc-lm1 + rc-m2, no ind, should be move to reclaim properties
+  op p4 : Sys UInt UInt Addr -> Bool
+  eq p4(S,T,T2,X) = 
+   (m(S,T) = X and pc(S,T) = f7 and isfree(S,T) and
+    not(pc(S,T2) = l3) and not(T = T2))
+    implies not(p(S,T2) = X) .
+
+-- rc-addr-lm1 + addruse-lm1 + detached-lm3 + p11
+  op p5 : Sys UInt UInt Addr -> Bool
+  eq p5(S,T,T2,X) = before-cas(S,T,X)
+    implies (not(counter(S) = X) and 
+      (T2 = T or not(m(S,T2) = X))) .
+
+-- detached-lm1 + p7
+  op p6 : Sys UInt Addr -> Bool
+  eq p6(S,T,X) = 
+    (m(S,T) = X) 
+    implies not(counter(S) = X) .
+
+-- p8 + p5, no ind
+  op p7 : Sys UInt UInt Addr -> Bool
+  eq p7(S,T,T2,X) = 
+    not(n(S,T) = X and pc(S,T) = l6 and m(S,T2) = X) .
+
+-- rc-addr-lm1 + detached-lm1
+  op p8 : Sys UInt Addr -> Bool
+  eq p8(S,T,X) = 
+    not(m(S,T) = X and n(S,T) = X) .
+
+-- p5 + p6 + p12 + detached-lm2
+  op p9 : Sys UInt UInt Addr -> Bool
+  eq p9(S,T,T2,X) = starting-reclaim(S,T,X)
+    implies (not(counter(S) = X or n(S,T) = X) and
+      (T2 = T or not(m(S,T2) = X))) .
+
+-- p9
+  op p10 : Sys UInt UInt Addr -> Bool
+  eq p10(S,T,T2,X) = (starting-reclaim(S,T,X) and not(T = T2))
+    implies not starting-reclaim(S,T2,X) . 
+
+-- addruse-lm2
+  op p11 : Sys UInt UInt Addr -> Bool
+  eq p11(S,T,T2,X) = 
+    (before-cas(S,T,X) and not(T = T2))
+    implies not before-cas(S,T2,X) .
+
+-- p5 + addruse-lm3
+  op p12 : Sys UInt UInt Addr -> Bool
+  eq p12(S,T,T2,X) = 
+    (starting-reclaim(S,T,X) and not(T = T2))
+    implies not before-cas(S,T2,X) .
+
+** lemmas helpers for detached set
+-- detached-lm3 + rc-addr-lm2 + p6 + p8 + p9
+  op detached-lm1 : Sys UInt Addr -> Bool
+  eq detached-lm1(S,T,X) = 
+    (counter(S) = X or n(S,T) = X) 
+    implies not(X \in detached(S,T) or X \in inuse(S,T)) .
+
+-- detached-lm1 + p9 + p10
+  op detached-lm2 : Sys UInt UInt Addr -> Bool
+  eq detached-lm2(S,T,T2,X) = 
+    (starting-reclaim(S,T,X) and not(T = T2)) 
+    implies not(X \in detached(S,T2) or X \in inuse(S,T2)) .
+
+-- rc-addr-lm2 + p5 + p12
+  op detached-lm3 : Sys UInt UInt Addr -> Bool
+  eq detached-lm3(S,T,T2,X) = before-cas(S,T,X)
+    implies not(X \in detached(S,T2) or X \in inuse(S,T2)) .
+
+** lemmas helpers for address in used 
+-- p6 + addruse-lm2
+  op addruse-lm1 : Sys Addr -> Bool
+  eq addruse-lm1(S,X) = (counter(S) = X) 
+    implies X \in addrInUse(S) .
+
+-- p5
+  op addruse-lm2 : Sys UInt Addr -> Bool
+  eq addruse-lm2(S,T,X) = before-cas(S,T,X)
+    implies X \in addrInUse(S) .
+
+-- p4 + addruse-lm1
+  op addruse-lm3 : Sys UInt Addr -> Bool
+  eq addruse-lm3(S,T,X) = starting-reclaim(S,T,X) 
+    implies X \in addrInUse(S) .
+}
+
+eof
+load properties.cafe .

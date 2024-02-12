@@ -1,0 +1,28 @@
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq top(s) = p(s,t2) .
+  eq n(s,t2) = next(s,p(s,t2)) .
+  red p24(s,t,x,s(k)) implies p26(s,t,t2,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq top(s) = p(s,t2) .
+  eq (n(s,t2) = next(s,p(s,t2))) = false .
+  red p2(s,t2) implies p26(s,t,t2,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  ops t t2 : -> UInt .
+  op x : -> Addr .
+  eq (top(s) = p(s,t2)) = false .
+  red p26(s,t,t2,x,k) .
+close

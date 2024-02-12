@@ -1,0 +1,14 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq nd(s,t) = nil .
+  red p4(s,t) .
+close
+
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq nd(s,t) = x .
+  red p7(s,t,x,0) implies p4(s,t) .
+close

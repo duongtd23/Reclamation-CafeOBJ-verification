@@ -1,0 +1,653 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  red p3(init,t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red p3(s,t) implies p3(alloc-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t = r1 .
+  red p3(s,t) implies p3(alloc-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(alloc-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p3(s,t) implies p3(alloc-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red p3(s,t) implies p3(alloc-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = l1) = false .
+  red p3(s,t) implies p3(alloc-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t = r1 .
+  red p3(s,t) implies p3(assign-hp(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(assign-hp(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p3(s,t) implies p3(assign-hp(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = false .
+  red p3(s,t) implies p3(assign-hp(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = l2) = false .
+  red p3(s,t) implies p3(assign-hp(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq t = r1 .
+  red p3(s,t) implies p3(assign-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq (t = r1) = false .
+  eq n(s,r1) = n(s,t) .
+  red p3(s,t) implies p3(assign-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  eq (t = r1) = false .
+  eq (n(s,r1) = n(s,t)) = false .
+  red p3(s,t) implies p3(assign-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq v(s,r1) = r2 .
+  eq (pc(s,r1) = l5) = false .
+  red p3(s,t) implies p3(assign-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (v(s,r1) = r2) = false .
+  red p3(s,t) implies p3(assign-n(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l3 .
+  eq t = r1 .
+  red p3(s,t) implies p3(assign-p(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l3 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(assign-p(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = l3) = false .
+  red p3(s,t) implies p3(assign-p(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l4 .
+  eq t = r1 .
+  red p3(s,t) implies p3(assign-v(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l4 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(assign-v(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = l4) = false .
+  red p3(s,t) implies p3(assign-v(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l6 .
+  eq t = r1 .
+  red p3(s,t) implies p3(cas(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l6 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(cas(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = l6) = false .
+  red p3(s,t) implies p3(cas(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f6 .
+  eq t = r1 .
+  red p3(s,t) implies p3(ch-isfree(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f6 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(ch-isfree(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = f6) = false .
+  red p3(s,t) implies p3(ch-isfree(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq t = r1 .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq isfree(s,r1) = true .
+  eq n(s,t) = r2 .
+  eq *(s,r2) = null .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true, use p5 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq isfree(s,r1) = true .
+  eq n(s,t) = r2 .
+  eq (*(s,r2) = null) = false .
+  eq pc(s,t) = l6 .
+  red p5(s,t,r1,r2) implies (p3(s,t) implies p3(free(s,r1,r2),t)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq isfree(s,r1) = true .
+  eq n(s,t) = r2 .
+  eq (*(s,r2) = null) = false .
+  eq (pc(s,t) = l6) = false .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq isfree(s,r1) = true .
+  eq (n(s,t) = r2) = false .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  eq (t = r1) = false .
+  eq isfree(s,r1) = false .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq m(s,r1) = r2 .
+  eq (pc(s,r1) = f7) = false .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (m(s,r1) = r2) = false .
+  red p3(s,t) implies p3(free(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq t = r1 .
+  red p3(s,t) implies p3(insert-p(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(insert-p(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq p(s,r1) = r2 .
+  eq (pc(s,r1) = f1) = false .
+  red p3(s,t) implies p3(insert-p(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (p(s,r1) = r2) = false .
+  red p3(s,t) implies p3(insert-p(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  red p3(s,t) implies p3(pop-detach(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(pop-detach(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red p3(s,t) implies p3(pop-detach(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = f5) = false .
+  red p3(s,t) implies p3(pop-detach(s,r1,r2),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f3 .
+  eq t = r1 .
+  red p3(s,t) implies p3(rd-detached(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f3 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(rd-detached(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = f3) = false .
+  red p3(s,t) implies p3(rd-detached(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l7 .
+  eq t = r1 .
+  red p3(s,t) implies p3(reclaim(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = l7 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(reclaim(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = l7) = false .
+  red p3(s,t) implies p3(reclaim(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f2 .
+  eq t = r1 .
+  red p3(s,t) implies p3(set-inuse(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f2 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(set-inuse(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = f2) = false .
+  red p3(s,t) implies p3(set-inuse(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f4 .
+  eq t = r1 .
+  red p3(s,t) implies p3(set-isfree(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f4 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(set-isfree(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = f4) = false .
+  red p3(s,t) implies p3(set-isfree(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f8 .
+  eq t = r1 .
+  red p3(s,t) implies p3(upd-detached(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq pc(s,r1) = f8 .
+  eq (t = r1) = false .
+  red p3(s,t) implies p3(upd-detached(s,r1),t) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  eq (pc(s,r1) = f8) = false .
+  red p3(s,t) implies p3(upd-detached(s,r1),t) .
+close
+
+--> Time taken is 722ms

@@ -1,0 +1,12 @@
+ipsgopen PROP .
+  inv addruse-lm1(S:Sys, T:UInt, X:Addr) .
+  inv detached-lm6(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p1(S:Sys, T:UInt, X:Addr) .
+  inv p4(S:Sys, T:UInt) .
+  generate p23(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output p23.cafe .
+:save-proof .
+eof
+
+load inputs/input23.cafe .

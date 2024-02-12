@@ -1,0 +1,16 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq t2 = t .
+  red p8(s,t,x) implies p7(s,t,t2,x) .
+close
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (t2 = t) = false .
+  red p5(s,t,t2,x) implies p7(s,t,t2,x) .
+close

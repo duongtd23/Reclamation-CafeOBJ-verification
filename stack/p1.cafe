@@ -1,0 +1,6 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  red p10(s,t,x,0) implies p1(s,t,x) .
+close

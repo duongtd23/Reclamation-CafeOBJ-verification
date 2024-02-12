@@ -1,0 +1,452 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  red rc-lm6(init,t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red rc-lm6(s,t,x) implies rc-lm6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(alloc-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq t = r1 .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (t = r1) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  eq (0 < r1) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-hp(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq pc(s,r1) = l5 .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq v(s,r1) = r2 .
+  eq (pc(s,r1) = l5) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (v(s,r1) = r2) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-n(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-p(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-p(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-v(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(assign-v(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  red rc-lm6(s,t,x) implies rc-lm6(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(cas(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  red rc-lm6(s,t,x) implies rc-lm6(ch-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(ch-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq pc(s,r1) = f7 .
+  red rc-lm6(s,t,x) implies rc-lm6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq m(s,r1) = r2 .
+  eq (pc(s,r1) = f7) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (m(s,r1) = r2) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(free(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq pc(s,r1) = f1 .
+  red rc-lm6(s,t,x) implies rc-lm6(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq p(s,r1) = r2 .
+  eq (pc(s,r1) = f1) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (p(s,r1) = r2) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(insert-p(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  red rc-lm6(s,t,x) implies rc-lm6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(pop-detach(s,r1,r2),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  red rc-lm6(s,t,x) implies rc-lm6(rd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(rd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  red rc-lm6(s,t,x) implies rc-lm6(reclaim(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(reclaim(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  red rc-lm6(s,t,x) implies rc-lm6(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(set-inuse(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  red rc-lm6(s,t,x) implies rc-lm6(set-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(set-isfree(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  red rc-lm6(s,t,x) implies rc-lm6(upd-detached(s,r1),t,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red rc-lm6(s,t,x) implies rc-lm6(upd-detached(s,r1),t,x) .
+close
+
+--> Time taken is 512ms

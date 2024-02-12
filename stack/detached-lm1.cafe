@@ -1,0 +1,6 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  red detached-lm5(s,t,x,0) implies detached-lm1(s,t,x) .
+close

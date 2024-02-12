@@ -1,0 +1,758 @@
+** extended labels **
+mod! LABEL2 {
+  ex(LABEL)
+  [Label2 LabelIdle < Label]
+  ops l9 l10 l11 l12 : -> Label2 {constr} .
+  op idle : -> LabelIdle {constr} .
+  eq (L:Label2 = I:LabelI) = false .
+  eq (L:Label2 = R:LabelR) = false .
+  eq (idle = I:LabelI) = false .
+  eq (idle = R:LabelR) = false .
+  eq (idle = L:Label2) = false .
+
+  eq (l9 = l10) = false .
+  eq (l9 = l11) = false .
+  eq (l9 = l12) = false .
+  eq (l10 = l11) = false .
+  eq (l10 = l12) = false .
+  eq (l11 = l12) = false .
+}
+mod* RECLAMATION-SIGNATURE {
+  pr(LABEL2 + VALUE + POINTER)
+  pr(SET(D <= TRIV2ADDR)*{sort Set -> AddrSet})
+  [Sys]
+
+-- observers
+-- thread execution progress
+  op pc : Sys UInt -> Label
+-- pointer to be reclaimed
+  op p : Sys UInt -> Addr&Nil
+  op m : Sys UInt -> Addr&Nil
+-- the set of address in use at a given state
+  op addrInUse : Sys -> AddrSet
+-- hazard pointer
+  op hp : Sys UInt -> Addr&Nil
+-- set of address in used
+  op inuse : Sys UInt -> AddrSet
+-- bool isfree (my)
+  op isfree : Sys UInt -> Bool
+-- detached array
+  op detached : Sys UInt -> AddrSet
+-- iterator
+  op iter : Sys UInt -> UInt
+
+-- number of threads, suppose that N>=2
+  op N : -> NzUInt .
+  eq (1 < N) = true .
+}
+-- specification of the function reclamation 
+mod* RECLAMATION {
+  ex(RECLAMATION-SIGNATURE)
+
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars X X2 X3 : Addr
+
+  op insert-p : Sys UInt Addr -> Sys {constr} .
+  op set-inuse : Sys UInt -> Sys {constr} .
+  op rd-detached : Sys UInt -> Sys {constr} .
+  op set-isfree : Sys UInt -> Sys {constr} .
+  op pop-detach : Sys UInt Addr -> Sys {constr} .
+  op ch-isfree : Sys UInt -> Sys {constr} .
+  op free : Sys UInt Addr -> Sys {constr} .
+  op upd-detached : Sys UInt -> Sys {constr} .
+
+  op c-insert-p : Sys UInt Addr -> Bool
+  eq c-insert-p(S,T,X) = 
+    (pc(S,T) = f1 and p(S,T) = X) .
+  ceq pc(insert-p(S,T,X), T2) = 
+      (if T = T2 then f2 else pc(S,T2) fi)
+    if c-insert-p(S,T,X) .
+  eq m(insert-p(S,T,X), T2) = m(S,T2) .
+  eq addrInUse(insert-p(S,T,X)) = addrInUse(S) .
+  eq inuse(insert-p(S,T,X),T2) = inuse(S,T2) .
+  eq isfree(insert-p(S,T,X),T2) = isfree(S,T2) .
+  ceq detached(insert-p(S,T,X),T2) = 
+     (if T = T2 then (X , detached(S,T2)) else detached(S,T2) fi)
+    if c-insert-p(S,T,X) .
+  eq iter(insert-p(S,T,X),T2) = iter(S,T2) .
+  ceq insert-p(S,T,X) = S if not c-insert-p(S,T,X) .
+
+  op c-set-inuse : Sys UInt -> Bool
+  eq c-set-inuse(S,T) = (pc(S,T) = f2) .
+  ceq pc(set-inuse(S,T), T2) = 
+     (if T = T2 then f3 else pc(S,T2) fi)
+    if c-set-inuse(S,T) .
+  eq m(set-inuse(S,T), T2) = m(S,T2) .
+  eq addrInUse(set-inuse(S,T)) = addrInUse(S) .
+  ceq inuse(set-inuse(S,T),T2) = 
+     (if T = T2 then empty else inuse(S,T2) fi) 
+    if c-set-inuse(S,T) .
+  eq isfree(set-inuse(S,T),T2) = isfree(S,T2) .
+  eq detached(set-inuse(S,T),T2) = detached(S,T2) .
+  eq iter(set-inuse(S,T),T2) = iter(S,T2) .
+  ceq set-inuse(S,T) = S if not c-set-inuse(S,T) .
+
+  op c-rd-detached : Sys UInt -> Bool
+  eq c-rd-detached(S,T) = (pc(S,T) = f3) .
+  ceq pc(rd-detached(S,T), T2) = 
+     (if T = T2 
+      then (if detached(S,T) = empty then f8 else f4 fi) 
+      else pc(S,T2) 
+      fi)
+    if c-rd-detached(S,T) .
+  eq m(rd-detached(S,T), T2) = m(S,T2) .
+  eq addrInUse(rd-detached(S,T)) = addrInUse(S) .
+  eq inuse(rd-detached(S,T),T2) = inuse(S,T2) .
+  eq isfree(rd-detached(S,T),T2) = isfree(S,T2) .
+  eq detached(rd-detached(S,T),T2) = detached(S,T2) .
+  eq iter(rd-detached(S,T),T2) = iter(S,T2) .
+  ceq rd-detached(S,T) = S if not c-rd-detached(S,T) .
+
+  op c-set-isfree : Sys UInt -> Bool
+  eq c-set-isfree(S,T) = (pc(S,T) = f4) .
+  ceq pc(set-isfree(S,T), T2) = 
+      (if T = T2 then f5 else pc(S,T2) fi)
+    if c-set-isfree(S,T) .
+  eq m(set-isfree(S,T), T2) = m(S,T2) .
+  eq addrInUse(set-isfree(S,T)) = addrInUse(S) .
+  eq inuse(set-isfree(S,T),T2) = inuse(S,T2) .
+  ceq isfree(set-isfree(S,T),T2) = 
+     (if T = T2 then true else isfree(S,T2) fi)
+    if c-set-isfree(S,T) .
+  eq detached(set-isfree(S,T),T2) = detached(S,T2) .
+  eq iter(set-isfree(S,T),T2) = iter(S,T2) .
+  ceq set-isfree(S,T) = S if not c-set-isfree(S,T) .
+
+  op c-pop-detach : Sys UInt Addr -> Bool
+  eq c-pop-detach(S,T,X) = 
+    (pc(S,T) = f5 and X \in detached(S,T)) .
+  ceq pc(pop-detach(S,T,X), T2) = 
+      (if T = T2 then f6 else pc(S,T2) fi)
+    if c-pop-detach(S,T,X) .
+  ceq m(pop-detach(S,T,X), T2) = 
+     (if T = T2 then X else m(S,T2) fi)
+    if c-pop-detach(S,T,X) .
+  eq addrInUse(pop-detach(S,T,X)) = addrInUse(S) .
+  eq inuse(pop-detach(S,T,X),T2) = inuse(S,T2) .
+  eq isfree(pop-detach(S,T,X),T2) = isfree(S,T2) .
+  ceq detached(pop-detach(S,T,X),T2) = 
+     (if T = T2 then delete(X,detached(S,T2)) else detached(S,T2) fi)
+    if c-pop-detach(S,T,X) .
+  ceq iter(pop-detach(S,T,X),T2) = 
+     (if T = T2 then 1 else iter(S,T2) fi)
+    if c-pop-detach(S,T,X) .
+  ceq pop-detach(S,T,X) = S if not c-pop-detach(S,T,X) .
+
+  op c-ch-isfree : Sys UInt -> Bool
+  eq c-ch-isfree(S,T) = (pc(S,T) = f6) .
+  ceq pc(ch-isfree(S,T), T2) = 
+     (if T = T2 
+      then (if iter(S,T) <= N and isfree(S,T) then f6 else f7 fi)
+      else pc(S,T2) 
+      fi)
+    if c-ch-isfree(S,T) .
+  eq m(ch-isfree(S,T), T2) = m(S,T2) .
+  eq addrInUse(ch-isfree(S,T)) = addrInUse(S) .
+  eq inuse(ch-isfree(S,T), T2) = inuse(S,T2) .
+  ceq isfree(ch-isfree(S,T), T2) = 
+     (if T = T2 
+      then (if iter(S,T) <= N and hp(S,iter(S,T)) = m(S,T) and 
+            not(iter(S,T) = T) then false else isfree(S,T) fi)
+      else isfree(S,T2)
+      fi)
+    if c-ch-isfree(S,T) .
+  eq detached(ch-isfree(S,T),T2) = detached(S,T2) .
+  ceq iter(ch-isfree(S,T),T2) = 
+     (if T = T2 then (iter(S,T) + 1) else iter(S,T2) fi)
+    if c-ch-isfree(S,T) .
+  ceq ch-isfree(S,T) = S if not c-ch-isfree(S,T) .
+
+  op c-free : Sys UInt Addr -> Bool
+  eq c-free(S,T,X) = 
+    (pc(S,T) = f7 and m(S,T) = X) .
+  ceq pc(free(S,T,X), T2) = 
+     (if T = T2 then f3 else pc(S,T2) fi)
+    if c-free(S,T,X) .
+  ceq m(free(S,T,X), T2) =
+     (if T = T2 
+      then (if isfree(S,T) then nil else X fi)
+      else m(S,T2)
+      fi)
+    if c-free(S,T,X) .
+  ceq addrInUse(free(S,T,X)) = 
+     (if isfree(S,T) then delete(X,addrInUse(S)) else addrInUse(S) fi)
+    if c-free(S,T,X) .
+  ceq inuse(free(S,T,X),T2) =
+     (if T = T2 and not isfree(S,T) 
+      then (X , inuse(S,T2))
+      else inuse(S,T2)
+      fi)
+    if c-free(S,T,X) .
+  eq isfree(free(S,T,X),T2) = isfree(S,T2) .
+  eq detached(free(S,T,X),T2) = detached(S,T2) .
+  eq iter(free(S,T,X),T2) = iter(S,T2) .
+  ceq free(S,T,X) = S if not c-free(S,T,X) .
+
+  op c-upd-detached : Sys UInt -> Bool
+  eq c-upd-detached(S,T) = (pc(S,T) = f8) .
+  ceq pc(upd-detached(S,T), T2) = 
+     (if T = T2 then idle else pc(S,T2) fi)
+    if c-upd-detached(S,T) .
+  eq m(upd-detached(S,T), T2) = m(S,T2) .
+  eq addrInUse(upd-detached(S,T)) = addrInUse(S) .
+  eq inuse(upd-detached(S,T),T2) = inuse(S,T2) .
+  eq isfree(upd-detached(S,T),T2) = isfree(S,T2) .
+  ceq detached(upd-detached(S,T),T2) = 
+     (if T = T2 
+      then (detached(S,T) , inuse(S,T))
+      else detached(S,T2)
+      fi)
+    if c-upd-detached(S,T) .
+  eq iter(upd-detached(S,T),T2) = iter(S,T2) .
+  ceq upd-detached(S,T) = S if not c-upd-detached(S,T) .
+
+-- lemmas
+  eq X \in (detached(S,T) , inuse(S,T)) =
+    (X \in detached(S,T) or X \in inuse(S,T)) .
+}
+
+mod* STACK-SIGNATURE {
+  ex(RECLAMATION)
+
+-- top of stack, shared by all threads
+  op top : Sys -> Addr&Nil
+-- local variables of each thread
+  op v : Sys UInt -> UInt&Null
+  op n : Sys UInt -> Addr&Nil
+  op nd : Sys UInt -> Addr&Nil
+  op tp : Sys UInt -> Addr&Nil
+-- value and next pointer of each node
+  op val : Sys Addr&Nil -> UInt&Null
+  op next : Sys Addr&Nil -> Addr&Nil
+
+  var T : UInt
+  vars XN XN2 : Addr&Nil
+
+-- initial states
+  op init : -> Sys {constr}
+
+  eq top(init) = nil .
+  eq hp(init,T) = nil .
+  eq val(init,XN) = null .
+  eq next(init,XN) = nil .
+  eq addrInUse(init) = empty .
+  eq pc(init,T) = idle .
+-- pop()
+  eq v(init,T) = null .
+  eq p(init,T) = nil .
+  eq n(init,T) = nil .
+-- push()
+  eq nd(init,T) = nil .
+  eq tp(init,T) = nil .
+-- reclaim()
+  eq m(init,T) = nil .
+  eq inuse(init,T) = empty .
+  eq detached(init,T) = empty .
+  eq iter(init,T) = 1 .
+  eq isfree(init,T) = true .
+
+  eq val(S:Sys, nil) = null .
+  eq next(S:Sys, nil) = nil .
+}
+** specification of function pop() **
+mod* STACK-POP {
+  ex(STACK-SIGNATURE)
+
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars XN XN2 : Addr&Nil
+
+** transitions for function pop() **
+  op assign-hp : Sys UInt -> Sys {constr} .
+  op assign-p : Sys UInt -> Sys {constr} .
+  op ch-p : Sys UInt -> Sys {constr} .
+  op assign-v : Sys UInt -> Sys {constr} .
+  op assign-n : Sys UInt -> Sys {constr} .
+  op cas : Sys UInt -> Sys {constr} .
+  op reclaim : Sys UInt -> Sys {constr} .
+
+-- a thread T executes code at l1 and moves to l2
+  op c-assign-hp : Sys UInt -> Bool
+  eq c-assign-hp(S,T) = (pc(S,T) = l1 and 0 < T and T <= N) .
+  eq top(assign-hp(S,T)) = top(S) .
+  ceq pc(assign-hp(S,T), T2) = 
+      (if T = T2 then l2 else pc(S,T2) fi)
+    if c-assign-hp(S,T) .
+  eq v(assign-hp(S,T), T2) = v(S,T2) .
+  eq p(assign-hp(S,T), T2) = p(S,T2) .
+  eq n(assign-hp(S,T), T2) = n(S,T2) .
+  eq val(assign-hp(S,T), XN) = val(S,XN) .
+  eq next(assign-hp(S,T), XN) = next(S,XN) .
+  eq addrInUse(assign-hp(S,T)) = addrInUse(S) .
+  ceq hp(assign-hp(S,T), T2) = 
+      (if T = T2 then top(S) else hp(S,T2) fi)
+    if c-assign-hp(S,T) .
+  ceq assign-hp(S,T) = S if not c-assign-hp(S,T) .
+
+  op c-assign-p : Sys UInt -> Bool
+  eq c-assign-p(S,T) = (pc(S,T) = l2) .
+  eq top(assign-p(S,T)) = top(S) .
+  ceq pc(assign-p(S,T), T2) = 
+      (if T = T2 then l3 else pc(S,T2) fi)
+    if c-assign-p(S,T) .
+  eq v(assign-p(S,T), T2) = v(S,T2) .
+  ceq p(assign-p(S,T), T2) = 
+      (if T = T2 then hp(S,T) else p(S,T2) fi)
+    if c-assign-p(S,T) .
+  eq n(assign-p(S,T), T2) = n(S,T2) .
+  eq val(assign-p(S,T), XN) = val(S,XN) .
+  eq next(assign-p(S,T), XN) = next(S,XN) .
+  eq addrInUse(assign-p(S,T)) = addrInUse(S) .
+  eq hp(assign-p(S,T), T2) = hp(S,T2) .
+  ceq assign-p(S,T) = S if not c-assign-p(S,T) .
+
+  op c-ch-p : Sys UInt -> Bool
+  eq c-ch-p(S,T) = (pc(S,T) = l3) .
+  eq top(ch-p(S,T)) = top(S) .
+  ceq pc(ch-p(S,T), T2) = 
+     (if T = T2 
+      then (if p(S,T) = nil then idle else l4 fi) 
+      else pc(S,T2) 
+      fi)
+    if c-ch-p(S,T) .
+  eq v(ch-p(S,T), T2) = v(S,T2) .
+  eq p(ch-p(S,T), T2) = p(S,T2) .
+  eq n(ch-p(S,T), T2) = n(S,T2) .
+  eq val(ch-p(S,T), XN2) = val(S,XN2) .
+  eq next(ch-p(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(ch-p(S,T)) = addrInUse(S) .
+  eq hp(ch-p(S,T), T2) = hp(S,T2) .
+  ceq ch-p(S,T) = S if not c-ch-p(S,T) .
+
+  op c-assign-v : Sys UInt -> Bool
+  eq c-assign-v(S,T) = (pc(S,T) = l4) .
+  eq top(assign-v(S,T)) = top(S) .
+  ceq pc(assign-v(S,T), T2) = 
+      (if T = T2 then l5 else pc(S,T2) fi)
+    if c-assign-v(S,T) .
+  ceq v(assign-v(S,T), T2) = 
+      (if T = T2 then val(S,p(S,T)) else v(S,T2) fi)
+    if c-assign-v(S,T) .
+  eq p(assign-v(S,T), T2) = p(S,T2) .
+  eq n(assign-v(S,T), T2) = n(S,T2) .
+  eq val(assign-v(S,T), XN2) = val(S,XN2) .
+  eq next(assign-v(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(assign-v(S,T)) = addrInUse(S) .
+  eq hp(assign-v(S,T), T2) = hp(S,T2) .
+  ceq assign-v(S,T) = S if not c-assign-v(S,T) .
+
+  op c-assign-n : Sys UInt -> Bool
+  eq c-assign-n(S,T) = (pc(S,T) = l5) .
+  eq top(assign-n(S,T)) = top(S) .
+  ceq pc(assign-n(S,T), T2) = 
+      (if T = T2 then l6 else pc(S,T2) fi)
+    if c-assign-n(S,T) .
+  eq v(assign-n(S,T), T2) = v(S,T2) .
+  eq p(assign-n(S,T), T2) = p(S,T2) .
+  ceq n(assign-n(S,T), T2) = 
+      (if T = T2 then next(S,p(S,T)) else n(S,T2) fi)
+    if c-assign-n(S,T) .
+  eq val(assign-n(S,T), XN2) = val(S,XN2) .
+  eq next(assign-n(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(assign-n(S,T)) = addrInUse(S) .
+  eq hp(assign-n(S,T), T2) = hp(S,T2) .
+  ceq assign-n(S,T) = S if not c-assign-n(S,T) .
+
+  op c-cas : Sys UInt -> Bool
+  eq c-cas(S,T) = (pc(S,T) = l6) .
+  ceq top(cas(S,T)) = 
+     (if top(S) = p(S,T) then n(S,T) else top(S) fi)
+    if c-cas(S,T) .
+  ceq pc(cas(S,T), T2) =
+     (if T = T2 
+      then (if top(S) = p(S,T) then l7 else l1 fi) 
+      else pc(S,T2) fi)
+    if c-cas(S,T) .
+  eq v(cas(S,T), T2) = v(S,T2) .
+  eq p(cas(S,T), T2) = p(S,T2) .
+  eq n(cas(S,T), T2) = n(S,T2) .
+  eq val(cas(S,T), XN2)  = val(S,XN2) .
+  eq next(cas(S,T), XN2)  = next(S,XN2) .
+  eq addrInUse(cas(S,T)) = addrInUse(S) .
+  eq hp(cas(S,T), T2) = hp(S,T2) .
+  ceq cas(S,T) = S if not c-cas(S,T) .
+
+  op c-reclaim : Sys UInt -> Bool
+  eq c-reclaim(S,T) = (pc(S,T) = l7) .
+  eq top(reclaim(S,T)) = top(S) .
+  ceq pc(reclaim(S,T), T2) =
+     (if T = T2 then f1 else pc(S,T2) fi) 
+    if c-reclaim(S,T) .
+  eq v(reclaim(S,T), T2) = v(S,T2) .
+  eq p(reclaim(S,T), T2) = p(S,T2) .
+  eq n(reclaim(S,T), T2) = n(S,T2) .
+  eq val(reclaim(S,T), XN2) = val(S,XN2) .
+  eq next(reclaim(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(reclaim(S,T)) = addrInUse(S) .
+  eq hp(reclaim(S,T), T2) = hp(S,T2) .
+  ceq reclaim(S,T) = S if not c-reclaim(S,T) .
+}
+** specification of function push() **
+mod* STACK-PUSH {
+  ex(STACK-POP)
+
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars X X2 X3 : Addr
+  vars XN XN2 : Addr&Nil
+  var V : UInt
+
+** transitions for function push() **
+  op alloc-n : Sys UInt Addr -> Sys {constr} .
+  op set-val : Sys UInt UInt -> Sys {constr} .
+  op load-top : Sys UInt -> Sys {constr} .
+  op set-next : Sys UInt -> Sys {constr} .
+  op cas2 : Sys UInt -> Sys {constr} .
+
+  op c-alloc-n : Sys UInt Addr -> Bool
+  eq c-alloc-n(S,T,X) = 
+   (pc(S,T) = l8 and
+    not(X \in addrInUse(S)) and
+    0 < T and T <= N) .
+  eq top(alloc-n(S,T,X)) = top(S) .
+  ceq pc(alloc-n(S,T,X), T2) = 
+      (if T = T2 then l9 else pc(S,T2) fi)
+    if c-alloc-n(S,T,X) .
+  ceq nd(alloc-n(S,T,X), T2) = 
+      (if T = T2 then X else nd(S,T2) fi)
+    if c-alloc-n(S,T,X) .
+  eq tp(alloc-n(S,T,X), T2) = tp(S,T2) .
+  eq val(alloc-n(S,T,X), XN2) = val(S,XN2) .
+  eq next(alloc-n(S,T,X), XN2) = next(S,XN2) .
+  ceq addrInUse(alloc-n(S,T,X)) = (X , addrInUse(S))
+    if c-alloc-n(S,T,X) .
+  eq hp(alloc-n(S,T,X), T2) = hp(S,T2) .
+  ceq alloc-n(S,T,X) = S if not c-alloc-n(S,T,X) .
+
+  op c-set-val : Sys UInt UInt -> Bool
+  eq c-set-val(S,T,V) = (pc(S,T) = l9) .
+  eq top(set-val(S,T,V)) = top(S) .
+  ceq pc(set-val(S,T,V), T2) = 
+      (if T = T2 then l10 else pc(S,T2) fi)
+    if c-set-val(S,T,V) .
+  eq nd(set-val(S,T,V), T2) = nd(S,T2) .
+  eq tp(set-val(S,T,V), T2) = tp(S,T2) .
+  ceq val(set-val(S,T,V), XN2) = 
+      (if XN2 = nd(S,T) then V else val(S,XN2) fi)
+    if c-set-val(S,T,V) .
+  eq next(set-val(S,T,V), XN2) = next(S,XN2) .
+  eq addrInUse(set-val(S,T,V)) = addrInUse(S) .
+  eq hp(set-val(S,T,V), T2) = hp(S,T2) .
+  ceq set-val(S,T,V) = S if not c-set-val(S,T,V) .
+
+  op c-load-top : Sys UInt -> Bool
+  eq c-load-top(S,T) = (pc(S,T) = l10) .
+  eq top(load-top(S,T)) = top(S) .
+  ceq pc(load-top(S,T), T2) = 
+      (if T = T2 then l11 else pc(S,T2) fi)
+    if c-load-top(S,T) .
+  eq nd(load-top(S,T), T2) = nd(S,T2) .
+  ceq tp(load-top(S,T), T2) = 
+      (if T2 = T then top(S) else tp(S,T2) fi)
+    if c-load-top(S,T) .
+  eq val(load-top(S,T), XN2) = val(S,XN2) .
+  eq next(load-top(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(load-top(S,T)) = addrInUse(S) .
+  eq hp(load-top(S,T), T2) = hp(S,T2) .
+  ceq load-top(S,T) = S if not c-load-top(S,T) .
+
+  op c-set-next : Sys UInt -> Bool
+  eq c-set-next(S,T) = (pc(S,T) = l11) .
+  eq top(set-next(S,T)) = top(S) .
+  ceq pc(set-next(S,T), T2) = 
+      (if T = T2 then l12 else pc(S,T2) fi)
+    if c-set-next(S,T) .
+  eq nd(set-next(S,T), T2) = nd(S,T2) .
+  eq tp(set-next(S,T), T2) = tp(S,T2) .
+  eq val(set-next(S,T), XN2) = val(S,XN2) .
+  ceq next(set-next(S,T), XN2) =
+      (if XN2 = nd(S,T) then tp(S,T) else next(S,XN2) fi)
+    if c-set-next(S,T) .
+  eq addrInUse(set-next(S,T)) = addrInUse(S) .
+  eq hp(set-next(S,T), T2) = hp(S,T2) .
+  ceq set-next(S,T) = S if not c-set-next(S,T) .
+
+  op c-cas2 : Sys UInt -> Bool
+  eq c-cas2(S,T) = (pc(S,T) = l12) .
+  ceq top(cas2(S,T)) = 
+      (if top(S) = tp(S,T) then nd(S,T) else top(S) fi)
+    if c-cas2(S,T) .
+  ceq pc(cas2(S,T), T2) = 
+     (if T = T2 
+      then (if top(S) = tp(S,T) then idle else l10 fi) 
+      else pc(S,T2) 
+      fi)
+    if c-cas2(S,T) .
+  ceq nd(cas2(S,T), T2) = 
+    (if T = T2 and top(S) = tp(S,T) then nil else nd(S,T2) fi)
+    if c-cas2(S,T) .
+  ceq tp(cas2(S,T), T2) =
+    (if T = T2 and top(S) = tp(S,T) then nil else tp(S,T2) fi)
+    if c-cas2(S,T) .
+  eq val(cas2(S,T), XN2) = val(S,XN2) .
+  eq next(cas2(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(cas2(S,T)) = addrInUse(S) .
+  eq hp(cas2(S,T), T2) = hp(S,T2) .
+  ceq cas2(S,T) = S if not c-cas2(S,T) .
+}
+
+mod* STACK {
+  ex(STACK-PUSH)
+
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars X X2 X3 : Addr
+  vars XN XN2 : Addr&Nil
+  var V : UInt
+
+-- when free m
+  ceq val(free(S,T,X), XN2) = 
+      (if isfree(S,T) and XN2 = X then null else val(S,XN2) fi)
+    if c-free(S,T,X) .
+  ceq next(free(S,T,X), XN2) = 
+      (if isfree(S,T) and XN2 = X then nil else next(S,XN2) fi)
+    if c-free(S,T,X) .
+  
+-- a thread from idle state can either run push() or pop()
+  op run-push : Sys UInt -> Sys {constr} .
+  op run-pop : Sys UInt -> Sys {constr} .
+  op c-run-p : Sys UInt -> Bool
+  eq c-run-p(S,T) = (pc(S,T) = idle) .
+
+  eq top(run-push(S,T)) = top(S) .
+  ceq pc(run-push(S,T), T2) = 
+     (if T = T2 then l8 else pc(S,T2) fi)
+    if c-run-p(S,T) .
+  eq v(run-push(S,T), T2) = v(S,T2) .
+  eq p(run-push(S,T), T2) = p(S,T2) .
+  eq n(run-push(S,T), T2) = n(S,T2) .
+  eq nd(run-push(S,T), T2) = nd(S,T2) .
+  eq tp(run-push(S,T), T2) = tp(S,T2) .
+  eq val(run-push(S,T), XN2) = val(S,XN2) .
+  eq next(run-push(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(run-push(S,T)) = addrInUse(S) .
+  eq hp(run-push(S,T), T2) = hp(S,T2) .
+  eq m(run-push(S,T), T2) = m(S,T2) .
+  eq inuse(run-push(S,T), T2) = inuse(S,T2) .
+  eq isfree(run-push(S,T), T2) = isfree(S,T2) .
+  eq detached(run-push(S,T), T2) = detached(S,T2) .
+  eq iter(run-push(S,T), T2) = iter(S,T2) .
+  ceq run-push(S,T) = S if not c-run-p(S,T) .
+
+  eq top(run-pop(S,T)) = top(S) .
+  ceq pc(run-pop(S,T), T2) = 
+     (if T = T2 then l1 else pc(S,T2) fi)
+    if c-run-p(S,T) .
+  eq v(run-pop(S,T), T2) = v(S,T2) .
+  eq p(run-pop(S,T), T2) = p(S,T2) .
+  eq n(run-pop(S,T), T2) = n(S,T2) .
+  eq nd(run-pop(S,T), T2) = nd(S,T2) .
+  eq tp(run-pop(S,T), T2) = tp(S,T2) .
+  eq val(run-pop(S,T), XN2) = val(S,XN2) .
+  eq next(run-pop(S,T), XN2) = next(S,XN2) .
+  eq addrInUse(run-pop(S,T)) = addrInUse(S) .
+  eq hp(run-pop(S,T), T2) = hp(S,T2) .
+  eq m(run-pop(S,T), T2) = m(S,T2) .
+  eq inuse(run-pop(S,T), T2) = inuse(S,T2) .
+  eq isfree(run-pop(S,T), T2) = isfree(S,T2) .
+  eq detached(run-pop(S,T), T2) = detached(S,T2) .
+  eq iter(run-pop(S,T), T2) = iter(S,T2) .
+  ceq run-pop(S,T) = S if not c-run-p(S,T) .
+
+-- local variables of functions push(int v) and reclaim()
+-- never changes by transitions of function pop() 
+  eq nd(assign-hp(S,T), T2) = nd(S,T2) .
+  eq tp(assign-hp(S,T), T2) = tp(S,T2) .
+  eq m(assign-hp(S,T), T2) = m(S,T2) .
+  eq inuse(assign-hp(S,T), T2) = inuse(S,T2) .
+  eq isfree(assign-hp(S,T), T2) = isfree(S,T2) .
+  eq detached(assign-hp(S,T), T2) = detached(S,T2) .
+  eq iter(assign-hp(S,T), T2) = iter(S,T2) .
+
+  eq nd(assign-p(S,T), T2) = nd(S,T2) .
+  eq tp(assign-p(S,T), T2) = tp(S,T2) .
+  eq m(assign-p(S,T), T2) = m(S,T2) .
+  eq inuse(assign-p(S,T), T2) = inuse(S,T2) .
+  eq isfree(assign-p(S,T), T2) = isfree(S,T2) .
+  eq detached(assign-p(S,T), T2) = detached(S,T2) .
+  eq iter(assign-p(S,T), T2) = iter(S,T2) .
+
+  eq nd(ch-p(S,T), T2) = nd(S,T2) .
+  eq tp(ch-p(S,T), T2) = tp(S,T2) .
+  eq m(ch-p(S,T), T2) = m(S,T2) .
+  eq inuse(ch-p(S,T), T2) = inuse(S,T2) .
+  eq isfree(ch-p(S,T), T2) = isfree(S,T2) .
+  eq detached(ch-p(S,T), T2) = detached(S,T2) .
+  eq iter(ch-p(S,T), T2) = iter(S,T2) .
+
+  eq nd(assign-v(S,T), T2) = nd(S,T2) .
+  eq tp(assign-v(S,T), T2) = tp(S,T2) .
+  eq m(assign-v(S,T), T2) = m(S,T2) .
+  eq inuse(assign-v(S,T), T2) = inuse(S,T2) .
+  eq isfree(assign-v(S,T), T2) = isfree(S,T2) .
+  eq detached(assign-v(S,T), T2) = detached(S,T2) .
+  eq iter(assign-v(S,T), T2) = iter(S,T2) .
+
+  eq nd(assign-n(S,T), T2) = nd(S,T2) .
+  eq tp(assign-n(S,T), T2) = tp(S,T2) .
+  eq m(assign-n(S,T), T2) = m(S,T2) .
+  eq inuse(assign-n(S,T), T2) = inuse(S,T2) .
+  eq isfree(assign-n(S,T), T2) = isfree(S,T2) .
+  eq detached(assign-n(S,T), T2) = detached(S,T2) .
+  eq iter(assign-n(S,T), T2) = iter(S,T2) .
+
+  eq nd(cas(S,T), T2) = nd(S,T2) .
+  eq tp(cas(S,T), T2) = tp(S,T2) .
+  eq m(cas(S,T), T2) = m(S,T2) .
+  eq inuse(cas(S,T), T2) = inuse(S,T2) .
+  eq isfree(cas(S,T), T2) = isfree(S,T2) .
+  eq detached(cas(S,T), T2) = detached(S,T2) .
+  eq iter(cas(S,T), T2) = iter(S,T2) .
+
+  eq nd(reclaim(S,T), T2) = nd(S,T2) .
+  eq tp(reclaim(S,T), T2) = tp(S,T2) .
+  eq m(reclaim(S,T), T2) = m(S,T2) .
+  eq inuse(reclaim(S,T), T2) = inuse(S,T2) .
+  eq isfree(reclaim(S,T), T2) = isfree(S,T2) .
+  eq detached(reclaim(S,T), T2) = detached(S,T2) .
+  eq iter(reclaim(S,T), T2) = iter(S,T2) .
+
+-- local variables of functions pop() and reclaim()
+-- never changes by transitions of function push()
+  eq v(alloc-n(S,T,X), T2) = v(S,T2) .
+  eq p(alloc-n(S,T,X), T2) = p(S,T2) .
+  eq n(alloc-n(S,T,X), T2) = n(S,T2) .
+  eq m(alloc-n(S,T,X), T2) = m(S,T2) .
+  eq inuse(alloc-n(S,T,X), T2) = inuse(S,T2) .
+  eq isfree(alloc-n(S,T,X), T2) = isfree(S,T2) .
+  eq detached(alloc-n(S,T,X), T2) = detached(S,T2) .
+  eq iter(alloc-n(S,T,X), T2) = iter(S,T2) .
+
+  eq v(set-val(S,T,V), T2) = v(S,T2) .
+  eq p(set-val(S,T,V), T2) = p(S,T2) .
+  eq n(set-val(S,T,V), T2) = n(S,T2) .
+  eq m(set-val(S,T,V), T2) = m(S,T2) .
+  eq inuse(set-val(S,T,V), T2) = inuse(S,T2) .
+  eq isfree(set-val(S,T,V), T2) = isfree(S,T2) .
+  eq detached(set-val(S,T,V), T2) = detached(S,T2) .
+  eq iter(set-val(S,T,V), T2) = iter(S,T2) .
+
+  eq v(load-top(S,T), T2) = v(S,T2) .
+  eq p(load-top(S,T), T2) = p(S,T2) .
+  eq n(load-top(S,T), T2) = n(S,T2) .
+  eq m(load-top(S,T), T2) = m(S,T2) .
+  eq inuse(load-top(S,T), T2) = inuse(S,T2) .
+  eq isfree(load-top(S,T), T2) = isfree(S,T2) .
+  eq detached(load-top(S,T), T2) = detached(S,T2) .
+  eq iter(load-top(S,T), T2) = iter(S,T2) .
+
+  eq v(set-next(S,T), T2) = v(S,T2) .
+  eq p(set-next(S,T), T2) = p(S,T2) .
+  eq n(set-next(S,T), T2) = n(S,T2) .
+  eq m(set-next(S,T), T2) = m(S,T2) .
+  eq inuse(set-next(S,T), T2) = inuse(S,T2) .
+  eq isfree(set-next(S,T), T2) = isfree(S,T2) .
+  eq detached(set-next(S,T), T2) = detached(S,T2) .
+  eq iter(set-next(S,T), T2) = iter(S,T2) .
+
+  eq v(cas2(S,T), T2) = v(S,T2) .
+  eq p(cas2(S,T), T2) = p(S,T2) .
+  eq n(cas2(S,T), T2) = n(S,T2) .
+  eq m(cas2(S,T), T2) = m(S,T2) .
+  eq inuse(cas2(S,T), T2) = inuse(S,T2) .
+  eq isfree(cas2(S,T), T2) = isfree(S,T2) .
+  eq detached(cas2(S,T), T2) = detached(S,T2) .
+  eq iter(cas2(S,T), T2) = iter(S,T2) .
+
+-- local variables of functions push() and pop()
+-- never changes by transitions of function reclaim()
+-- also to top and hp
+  eq top(insert-p(S,T,X)) = top(S) .
+  eq hp(insert-p(S,T,X), T2) = hp(S,T2) .
+  eq val(insert-p(S,T,X), XN) = val(S,XN) .
+  eq next(insert-p(S,T,X), XN) = next(S,XN) .
+  eq v(insert-p(S,T,X), T2) = v(S,T2) .
+  eq p(insert-p(S,T,X), T2) = p(S,T2) .
+  eq n(insert-p(S,T,X), T2) = n(S,T2) .
+  eq nd(insert-p(S,T,X), T2) = nd(S,T2) .
+  eq tp(insert-p(S,T,X), T2) = tp(S,T2) .
+
+  eq top(set-inuse(S,T)) = top(S) .
+  eq hp(set-inuse(S,T), T2) = hp(S,T2) .
+  eq val(set-inuse(S,T), XN) = val(S,XN) .
+  eq next(set-inuse(S,T), XN) = next(S,XN) .
+  eq v(set-inuse(S,T), T2) = v(S,T2) .
+  eq p(set-inuse(S,T), T2) = p(S,T2) .
+  eq n(set-inuse(S,T), T2) = n(S,T2) .
+  eq nd(set-inuse(S,T), T2) = nd(S,T2) .
+  eq tp(set-inuse(S,T), T2) = tp(S,T2) .
+
+  eq top(rd-detached(S,T)) = top(S) .
+  eq hp(rd-detached(S,T), T2) = hp(S,T2) .
+  eq val(rd-detached(S,T), XN) = val(S,XN) .
+  eq next(rd-detached(S,T), XN) = next(S,XN) .
+  eq v(rd-detached(S,T), T2) = v(S,T2) .
+  eq p(rd-detached(S,T), T2) = p(S,T2) .
+  eq n(rd-detached(S,T), T2) = n(S,T2) .
+  eq nd(rd-detached(S,T), T2) = nd(S,T2) .
+  eq tp(rd-detached(S,T), T2) = tp(S,T2) .
+
+  eq top(set-isfree(S,T)) = top(S) .
+  eq hp(set-isfree(S,T), T2) = hp(S,T2) .
+  eq val(set-isfree(S,T), XN) = val(S,XN) .
+  eq next(set-isfree(S,T), XN) = next(S,XN) .
+  eq v(set-isfree(S,T), T2) = v(S,T2) .
+  eq p(set-isfree(S,T), T2) = p(S,T2) .
+  eq n(set-isfree(S,T), T2) = n(S,T2) .
+  eq nd(set-isfree(S,T), T2) = nd(S,T2) .
+  eq tp(set-isfree(S,T), T2) = tp(S,T2) .
+
+  eq top(pop-detach(S,T,X)) = top(S) .
+  eq hp(pop-detach(S,T,X), T2) = hp(S,T2) .
+  eq val(pop-detach(S,T,X), XN) = val(S,XN) .
+  eq next(pop-detach(S,T,X), XN) = next(S,XN) .
+  eq v(pop-detach(S,T,X), T2) = v(S,T2) .
+  eq p(pop-detach(S,T,X), T2) = p(S,T2) .
+  eq n(pop-detach(S,T,X), T2) = n(S,T2) .
+  eq nd(pop-detach(S,T,X), T2) = nd(S,T2) .
+  eq tp(pop-detach(S,T,X), T2) = tp(S,T2) .
+
+  eq top(ch-isfree(S,T)) = top(S) .
+  eq hp(ch-isfree(S,T), T2) = hp(S,T2) .
+  eq val(ch-isfree(S,T), XN) = val(S,XN) .
+  eq next(ch-isfree(S,T), XN) = next(S,XN) .
+  eq v(ch-isfree(S,T), T2) = v(S,T2) .
+  eq p(ch-isfree(S,T), T2) = p(S,T2) .
+  eq n(ch-isfree(S,T), T2) = n(S,T2) .
+  eq nd(ch-isfree(S,T), T2) = nd(S,T2) .
+  eq tp(ch-isfree(S,T), T2) = tp(S,T2) .
+
+  eq top(free(S,T,X)) = top(S) .
+  eq hp(free(S,T,X), T2) = hp(S,T2) .
+  eq v(free(S,T,X), T2) = v(S,T2) .
+  eq p(free(S,T,X), T2) = p(S,T2) .
+  eq n(free(S,T,X), T2) = n(S,T2) .
+  eq nd(free(S,T,X), T2) = nd(S,T2) .
+  eq tp(free(S,T,X), T2) = tp(S,T2) .
+
+  eq top(upd-detached(S,T)) = top(S) .
+  eq hp(upd-detached(S,T), T2) = hp(S,T2) .
+  eq val(upd-detached(S,T), XN) = val(S,XN) .
+  eq next(upd-detached(S,T), XN) = next(S,XN) .
+  eq v(upd-detached(S,T), T2) = v(S,T2) .
+  eq p(upd-detached(S,T), T2) = p(S,T2) .
+  eq n(upd-detached(S,T), T2) = n(S,T2) .
+  eq nd(upd-detached(S,T), T2) = nd(S,T2) .
+  eq tp(upd-detached(S,T), T2) = tp(S,T2) .
+}

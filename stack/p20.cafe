@@ -1,0 +1,748 @@
+--> true
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  red p20(init,x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red p20(s,x,k) implies p20(alloc-n(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  red p20(s,x,k) implies p20(alloc-n(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p20(s,x,k) implies p20(alloc-n(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = false .
+  red p20(s,x,k) implies p20(alloc-n(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l8) = false .
+  red p20(s,x,k) implies p20(alloc-n(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  red p20(s,x,k) implies p20(assign-hp(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p20(s,x,k) implies p20(assign-hp(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red p20(s,x,k) implies p20(assign-hp(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red p20(s,x,k) implies p20(assign-hp(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l5 .
+  red p20(s,x,k) implies p20(assign-n(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l5) = false .
+  red p20(s,x,k) implies p20(assign-n(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  red p20(s,x,k) implies p20(assign-p(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red p20(s,x,k) implies p20(assign-p(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  red p20(s,x,k) implies p20(assign-v(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red p20(s,x,k) implies p20(assign-v(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq val(s,x) = null .
+  eq nextk(n(s,r1),k) = x .
+  eq nextk(p(s,r1),k) = x .
+  red p20(s,x,k) implies p20(cas(s,r1),x,k) .
+close
+
+--> true, use p17 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq val(s,x) = null .
+  eq nextk(n(s,r1),k) = x .
+  eq (nextk(p(s,r1),k) = x) = false .
+  red p17(s,r1,x,k) implies (p20(s,x,k) implies p20(cas(s,r1),x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq val(s,x) = null .
+  eq (nextk(n(s,r1),k) = x) = false .
+  red p20(s,x,k) implies p20(cas(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq top(s) = p(s,r1) .
+  eq (val(s,x) = null) = false .
+  red p20(s,x,k) implies p20(cas(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  eq (top(s) = p(s,r1)) = false .
+  red p20(s,x,k) implies p20(cas(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red p20(s,x,k) implies p20(cas(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq val(s,x) = null .
+  eq nextk(nd(s,r1),k) = x .
+  eq nextk(tp(s,r1),k) = x .
+  red p20(s,x,k) implies p20(cas2(s,r1),x,k) .
+close
+
+--> true, use p18 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq val(s,x) = null .
+  eq nextk(nd(s,r1),k) = x .
+  eq (nextk(tp(s,r1),k) = x) = false .
+  red p18(s,r1,x,k) implies (p20(s,x,k) implies p20(cas2(s,r1),x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq val(s,x) = null .
+  eq (nextk(nd(s,r1),k) = x) = false .
+  red p20(s,x,k) implies p20(cas2(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq top(s) = tp(s,r1) .
+  eq (val(s,x) = null) = false .
+  red p20(s,x,k) implies p20(cas2(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq (top(s) = tp(s,r1)) = false .
+  red p20(s,x,k) implies p20(cas2(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l12) = false .
+  red p20(s,x,k) implies p20(cas2(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  red p20(s,x,k) implies p20(ch-isfree(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red p20(s,x,k) implies p20(ch-isfree(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  red p20(s,x,k) implies p20(ch-p(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red p20(s,x,k) implies p20(ch-p(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  eq x = r2 .
+  eq val(s,r2) = null .
+  red p20(s,x,k) implies p20(free(s,r1,r2),x,k) .
+close
+
+--> true, use safety3 as a lemma
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  eq x = r2 .
+  eq (val(s,r2) = null) = false .
+  eq nextk(top(s),k) = r2 .
+  red safety3(s,r1,r2,k) implies (p20(s,x,k) implies p20(free(s,r1,r2),x,k)) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  eq x = r2 .
+  eq (val(s,r2) = null) = false .
+  eq (nextk(top(s),k) = r2) = false .
+  red p20(s,x,k) implies p20(free(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = true .
+  eq (x = r2) = false .
+  red p20(s,x,k) implies p20(free(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq isfree(s,r1) = false .
+  red p20(s,x,k) implies p20(free(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq (m(s,r1) = r2) = false .
+  red p20(s,x,k) implies p20(free(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f7) = false .
+  red p20(s,x,k) implies p20(free(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  red p20(s,x,k) implies p20(insert-p(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq (p(s,r1) = r2) = false .
+  red p20(s,x,k) implies p20(insert-p(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f1) = false .
+  red p20(s,x,k) implies p20(insert-p(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l10 .
+  red p20(s,x,k) implies p20(load-top(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l10) = false .
+  red p20(s,x,k) implies p20(load-top(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  red p20(s,x,k) implies p20(pop-detach(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red p20(s,x,k) implies p20(pop-detach(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red p20(s,x,k) implies p20(pop-detach(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  red p20(s,x,k) implies p20(rd-detached(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red p20(s,x,k) implies p20(rd-detached(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  red p20(s,x,k) implies p20(reclaim(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red p20(s,x,k) implies p20(reclaim(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = idle .
+  red p20(s,x,k) implies p20(run-pop(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = idle) = false .
+  red p20(s,x,k) implies p20(run-pop(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = idle .
+  red p20(s,x,k) implies p20(run-push(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = idle) = false .
+  red p20(s,x,k) implies p20(run-push(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  red p20(s,x,k) implies p20(set-inuse(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red p20(s,x,k) implies p20(set-inuse(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  red p20(s,x,k) implies p20(set-isfree(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red p20(s,x,k) implies p20(set-isfree(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l11 .
+  red p20(s,x,k) implies p20(set-next(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l11) = false .
+  red p20(s,x,k) implies p20(set-next(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l9 .
+  eq nd(s,r1) = x .
+  red p20(s,x,k) implies p20(set-val(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = l9 .
+  eq (nd(s,r1) = x) = false .
+  red p20(s,x,k) implies p20(set-val(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = l9) = false .
+  red p20(s,x,k) implies p20(set-val(s,r1,r2),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  red p20(s,x,k) implies p20(upd-detached(s,r1),x,k) .
+close
+
+--> true
+open PROP .
+  op k : -> UInt .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red p20(s,x,k) implies p20(upd-detached(s,r1),x,k) .
+close
+
+--> Time taken is 1645ms

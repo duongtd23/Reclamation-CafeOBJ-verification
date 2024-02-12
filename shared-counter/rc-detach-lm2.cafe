@@ -1,0 +1,17 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq t2 = t .
+  red rc-detach-lm3(s,t,x) implies rc-detach-lm2(s,t,t2,x) .
+close
+
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (t2 = t) = false .
+  red rc-detach-lm1(s,t,t2,x) implies rc-detach-lm2(s,t,t2,x) .
+close

@@ -1,0 +1,28 @@
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq top(s) = p(s,t) .
+  eq n(s,t) = next(s,p(s,t)) .
+  red (p20(s,x,s(k)) and addruse-lm4(s,x,s(k))) implies p17(s,t,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq top(s) = p(s,t) .
+  eq (n(s,t) = next(s,p(s,t))) = false .
+  red p2(s,t) implies p17(s,t,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (top(s) = p(s,t)) = false .
+  red p17(s,t,x,k) .
+close

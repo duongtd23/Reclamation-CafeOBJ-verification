@@ -1,0 +1,816 @@
+--> true
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  red p13(init,t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = true .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t2 = r1 .
+  eq x = r2 .
+  eq m(s,t) = r2 .
+  eq nd(s,r1) = r2 .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true, use rc-addr-lm1 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t2 = r1 .
+  eq x = r2 .
+  eq m(s,t) = r2 .
+  eq (nd(s,r1) = r2) = false .
+  red rc-addr-lm1(s,t,r2) implies (p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t2 = r1 .
+  eq x = r2 .
+  eq (m(s,t) = r2) = false .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq t2 = r1 .
+  eq (x = r2) = false .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  eq (r2 \in addrInUse(s)) = false .
+  eq (t2 = r1) = false .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l8 .
+  eq (0 < r1) = false .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l8) = false .
+  red p13(s,t,t2,x) implies p13(alloc-n(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = true .
+  red p13(s,t,t2,x) implies p13(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = true .
+  eq (r1 < s(N)) = false .
+  red p13(s,t,t2,x) implies p13(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l1 .
+  eq (0 < r1) = false .
+  red p13(s,t,t2,x) implies p13(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l1) = false .
+  red p13(s,t,t2,x) implies p13(assign-hp(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l5 .
+  red p13(s,t,t2,x) implies p13(assign-n(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l5) = false .
+  red p13(s,t,t2,x) implies p13(assign-n(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l2 .
+  red p13(s,t,t2,x) implies p13(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l2) = false .
+  red p13(s,t,t2,x) implies p13(assign-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l4 .
+  red p13(s,t,t2,x) implies p13(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l4) = false .
+  red p13(s,t,t2,x) implies p13(assign-v(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l6 .
+  red p13(s,t,t2,x) implies p13(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l6) = false .
+  red p13(s,t,t2,x) implies p13(cas(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq t2 = r1 .
+  eq top(s) = tp(s,r1) .
+  red p13(s,t,t2,x) implies p13(cas2(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq t2 = r1 .
+  eq (top(s) = tp(s,r1)) = false .
+  red p13(s,t,t2,x) implies p13(cas2(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l12 .
+  eq (t2 = r1) = false .
+  red p13(s,t,t2,x) implies p13(cas2(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l12) = false .
+  red p13(s,t,t2,x) implies p13(cas2(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f6 .
+  red p13(s,t,t2,x) implies p13(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f6) = false .
+  red p13(s,t,t2,x) implies p13(ch-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l3 .
+  red p13(s,t,t2,x) implies p13(ch-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l3) = false .
+  red p13(s,t,t2,x) implies p13(ch-p(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq t = r1 .
+  eq isfree(s,r1) = true .
+  red p13(s,t,t2,x) implies p13(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq t = r1 .
+  eq isfree(s,r1) = false .
+  red p13(s,t,t2,x) implies p13(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq m(s,r1) = r2 .
+  eq (t = r1) = false .
+  red p13(s,t,t2,x) implies p13(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f7 .
+  eq (m(s,r1) = r2) = false .
+  red p13(s,t,t2,x) implies p13(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f7) = false .
+  red p13(s,t,t2,x) implies p13(free(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq p(s,r1) = r2 .
+  red p13(s,t,t2,x) implies p13(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f1 .
+  eq (p(s,r1) = r2) = false .
+  red p13(s,t,t2,x) implies p13(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f1) = false .
+  red p13(s,t,t2,x) implies p13(insert-p(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l10 .
+  red p13(s,t,t2,x) implies p13(load-top(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l10) = false .
+  red p13(s,t,t2,x) implies p13(load-top(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq x = r2 .
+  eq m(s,r1) = r2 .
+  red p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true, use detached-lm3 as a lemma
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq x = r2 .
+  eq (m(s,r1) = r2) = false .
+  eq nd(s,t2) = r2 .
+  red detached-lm3(s,t2,r1,r2) implies (p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x)) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq x = r2 .
+  eq (m(s,r1) = r2) = false .
+  eq (nd(s,t2) = r2) = false .
+  red p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq t = r1 .
+  eq (x = r2) = false .
+  red p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = true .
+  eq (t = r1) = false .
+  red p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f5 .
+  eq (r2 \in detached(s,r1)) = false .
+  red p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> Addr .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f5) = false .
+  red p13(s,t,t2,x) implies p13(pop-detach(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f3 .
+  red p13(s,t,t2,x) implies p13(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f3) = false .
+  red p13(s,t,t2,x) implies p13(rd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l7 .
+  red p13(s,t,t2,x) implies p13(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l7) = false .
+  red p13(s,t,t2,x) implies p13(reclaim(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = idle .
+  red p13(s,t,t2,x) implies p13(run-pop(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = idle) = false .
+  red p13(s,t,t2,x) implies p13(run-pop(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = idle .
+  red p13(s,t,t2,x) implies p13(run-push(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = idle) = false .
+  red p13(s,t,t2,x) implies p13(run-push(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f2 .
+  red p13(s,t,t2,x) implies p13(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f2) = false .
+  red p13(s,t,t2,x) implies p13(set-inuse(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f4 .
+  red p13(s,t,t2,x) implies p13(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f4) = false .
+  red p13(s,t,t2,x) implies p13(set-isfree(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l11 .
+  red p13(s,t,t2,x) implies p13(set-next(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l11) = false .
+  red p13(s,t,t2,x) implies p13(set-next(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = l9 .
+  red p13(s,t,t2,x) implies p13(set-val(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op r2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = l9) = false .
+  red p13(s,t,t2,x) implies p13(set-val(s,r1,r2),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq pc(s,r1) = f8 .
+  red p13(s,t,t2,x) implies p13(upd-detached(s,r1),t,t2,x) .
+close
+
+--> true
+open PROP .
+  op r1 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op t2 : -> UInt .
+  op x : -> Addr .
+  eq (pc(s,r1) = f8) = false .
+  red p13(s,t,t2,x) implies p13(upd-detached(s,r1),t,t2,x) .
+close
+
+--> Time taken is 1709ms

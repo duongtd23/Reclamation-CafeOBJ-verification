@@ -1,0 +1,14 @@
+ipsgopen PROP .
+  inv p4(S:Sys, T:UInt) .
+  inv p2(S:Sys, T:UInt) .
+  inv p31(S:Sys, T:UInt, K:UInt) .
+  inv p30(S:Sys, T:UInt, K:UInt) .
+  inv p29(S:Sys, T:UInt, K:UInt) .
+  generate p32(S:Sys, K:UInt) induction on S:Sys .
+close
+set-output p32.cafe .
+:save-proof .
+eof
+
+load properties.cafe .
+load inputs/input32.cafe .

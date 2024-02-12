@@ -1,0 +1,40 @@
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq top(s) = tp(s,t) .
+  eq tp(s,t) = next(s,nd(s,t)) .
+  eq k = 0 .
+  red (p19(s,t,x) and addruse-lm5(s,t,x)) implies p18(s,t,x,k) .
+close
+
+open PROP .
+  ops k k2 : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq top(s) = tp(s,t) .
+  eq tp(s,t) = next(s,nd(s,t)) .
+  eq k = s(k2) .
+  red (p20(s,x,k2) and addruse-lm4(s,x,k2)) implies p18(s,t,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq top(s) = tp(s,t) .
+  eq (tp(s,t) = next(s,nd(s,t))) = false .
+  red p8(s,t) implies p18(s,t,x,k) .
+close
+
+open PROP .
+  op k : -> UInt .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  eq (top(s) = tp(s,t)) = false .
+  red p18(s,t,x,k) .
+close

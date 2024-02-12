@@ -1,0 +1,7 @@
+open PROP .
+  op s : -> Sys .
+  op t : -> UInt .
+  op x : -> Addr .
+  op k : -> UInt .
+  red p10(s,t,x,k) implies safety3(s,t,x,k) .
+close

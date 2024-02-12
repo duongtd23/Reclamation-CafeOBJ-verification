@@ -1,0 +1,77 @@
+ipsgopen PROP .
+  inv p2(S:Sys) .
+  inv rc-lm2(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate p1(S:Sys, T:UInt) induction on S:Sys .
+close
+set-output p1.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p3(S:Sys, T:UInt) .
+  inv p6(S:Sys, T:UInt,X:Addr) .
+  generate p2(S:Sys) induction on S:Sys .
+close
+set-output p2.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p5(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate p3(S:Sys, T:UInt) induction on S:Sys .
+close
+set-output p3.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-addr-lm1(S:Sys, T:UInt, X:Addr) .
+  inv addruse-lm1(S:Sys, X:Addr) .
+  inv detached-lm3(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p11(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate p5(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output p5.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv detached-lm1(S:Sys, T:UInt, X:Addr) .
+  inv p7(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate p6(S:Sys, T:UInt,X:Addr) induction on S:Sys .
+close
+set-output p6.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv rc-addr-lm1(S:Sys, T:UInt, X:Addr) .
+  inv detached-lm1(S:Sys, T:UInt, X:Addr) .
+  generate p8(S:Sys, T:UInt, X:Addr) induction on S:Sys .
+close
+set-output p8.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p5(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p6(S:Sys, T:UInt,X:Addr) .
+  inv detached-lm2(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  inv p12(S:Sys, T:UInt, T2:UInt, X:Addr) .
+  generate p9(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output p9.cafe .
+:save-proof .
+-- eof
+
+ipsgopen PROP .
+  inv p9(S:Sys, T:UInt,T2:UInt,X:Addr) .
+  generate p10(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
+close
+set-output p10.cafe .
+:save-proof .
+-- eof
+
+eof
+load properties.cafe .
+load inputs/input2.cafe .
