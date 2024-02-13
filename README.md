@@ -2,11 +2,11 @@
 
 This repository contains the formal verification of two concurrent programs: (1) shared counter and (2) Treiber's stack integrated with hazard pointer mechanism for safe memory reclamation.
 
-1. `common.cafe`: some common parts for the specifications of the two programs, including the specifications of unsigned integers as well as the execution labels - module `LABEL`.
+1. `common.cafe`: some common parts for the specifications of the two programs, including the specifications of unsigned integers as well as the execution labels - module `LABEL`. 
 
-2. `shared-counter`: the verification of (1) the shared counter program.
+2. `shared-counter`: the verification of (1) the shared counter program. Check README in that folder.
 
-3. `stack`: the verification of (2) Treiber's stack.
+3. `stack`: the verification of (2) Treiber's stack. Check README in that folder.
 
 ## Executing proof scores
 Proof scores are executable (CafeOBJ code). To install CafeOBJ, please isit https://cafeobj.org/.
@@ -15,7 +15,7 @@ You can try to run the proof score of `safety2` of the Shared counter program by
 cafeobj common.cafe shared-counter/sc-hp.cafe shared-counter/properties.cafe shared-counter/safety2.cafe 
 ```
 
-Or with CafeInMaude:
+Note that some proofs are run slowly with CafeOBJ, and usually run faster with CafeInMaude:
 
 ```
 maude -allow-files path-to-CafeInMaude/src/cafeInMaude.maude
