@@ -1,0 +1,194 @@
+** shared counter without hazard pointers **
+mod* SHARED-COUNTER-SIGNATURE {
+  pr(LABEL + VALUE + POINTER)
+  pr(SET(D <= TRIV2ADDR)*{sort Set -> AddrSet})
+  [Sys]
+
+-- observers
+-- thread execution progress
+  op pc : Sys UInt -> Label
+  op counter : Sys -> Addr
+  op v : Sys UInt -> UInt&Null
+  op p : Sys UInt -> Addr&Nil
+  op n : Sys UInt -> Addr&Nil
+  op * : Sys Addr&Nil -> UInt&Null
+-- the set of address in use at a given state
+  op addrInUse : Sys -> AddrSet
+-- hazard pointer
+  op hp : Sys UInt -> Addr&Nil
+
+-- number of threads, suppose that N>=2
+  op N : -> NzUInt .
+  eq (1 < N) = true .
+
+  var T : UInt
+  vars XN XN2 : Addr&Nil
+  var S : Sys
+
+-- an arbitrary memory block for initialization of the shared counter
+  op c : -> Addr .
+  eq *(S,nil) = null .
+
+-- initial states
+  op init : -> Sys {constr}
+
+  eq counter(init) = c .
+  eq hp(init,T) = nil .
+  eq *(init,XN) = (if XN = c then 0 else null fi) .
+  eq addrInUse(init) = c .
+  eq pc(init,T) = l1 .
+-- inc()
+  eq v(init,T) = null .
+  eq p(init,T) = nil .
+  eq n(init,T) = nil .
+}
+** specification of function inc() **
+mod* SHARED-COUNTER-INC {
+  ex(SHARED-COUNTER-SIGNATURE)
+  vars T T2 T3 T4 : UInt
+  var S : Sys
+  vars V V2 : UInt
+  vars X X2 X3 : Addr
+  vars XN XN2 : Addr&Nil
+
+** transitions for function inc() **
+  op alloc-n : Sys UInt Addr -> Sys {constr} .
+  op assign-hp : Sys UInt -> Sys {constr} .
+  op assign-p : Sys UInt -> Sys {constr} .
+  op assign-v : Sys UInt -> Sys {constr} .
+  op assign-n : Sys UInt UInt -> Sys {constr} .
+  op cas : Sys UInt -> Sys {constr} .
+  op reclaim : Sys UInt Addr -> Sys {constr} .
+
+  op c-alloc-n : Sys UInt Addr -> Bool
+  eq c-alloc-n(S,T,X) = 
+   (pc(S,T) = l1 and
+    not(X \in addrInUse(S)) and
+    0 < T and T <= N) .
+  eq counter(alloc-n(S,T,X)) = counter(S) .
+  ceq pc(alloc-n(S,T,X), T2) = 
+      (if T = T2 then l2 else pc(S,T2) fi)
+    if c-alloc-n(S,T,X) .
+  eq v(alloc-n(S,T,X), T2) = v(S,T2) .
+  eq p(alloc-n(S,T,X), T2) = p(S,T2) .
+  ceq n(alloc-n(S,T,X), T2) = 
+      (if T = T2 then X else n(S,T2) fi)
+    if c-alloc-n(S,T,X) .
+  eq *(alloc-n(S,T,X), XN2) = *(S,XN2) .
+  ceq addrInUse(alloc-n(S,T,X)) = (X , addrInUse(S))
+    if c-alloc-n(S,T,X) .
+  eq hp(alloc-n(S,T,X), T2) = hp(S,T2) .
+  ceq alloc-n(S,T,X) = S if not c-alloc-n(S,T,X) .
+
+  op c-assign-hp : Sys UInt -> Bool
+  eq c-assign-hp(S,T) = (pc(S,T) = l2 and 0 < T and T <= N) .
+  eq counter(assign-hp(S,T)) = counter(S) .
+  ceq pc(assign-hp(S,T), T2) = 
+      (if T = T2 then l3 else pc(S,T2) fi)
+    if c-assign-hp(S,T) .
+  eq v(assign-hp(S,T), T2) = v(S,T2) .
+  eq p(assign-hp(S,T), T2) = p(S,T2) .
+  eq n(assign-hp(S,T), T2) = n(S,T2) .
+  eq *(assign-hp(S,T), XN) = *(S,XN) .
+  eq addrInUse(assign-hp(S,T)) = addrInUse(S) .
+  ceq hp(assign-hp(S,T), T2) = 
+      (if T = T2 then counter(S) else hp(S,T2) fi)
+    if c-assign-hp(S,T) .
+  ceq assign-hp(S,T) = S if not c-assign-hp(S,T) .
+
+  op c-assign-p : Sys UInt -> Bool
+  eq c-assign-p(S,T) = (pc(S,T) = l3) .
+  eq counter(assign-p(S,T)) = counter(S) .
+  ceq pc(assign-p(S,T), T2) = 
+      (if T = T2 then l4 else pc(S,T2) fi)
+    if c-assign-p(S,T) .
+  eq v(assign-p(S,T), T2) = v(S,T2) .
+  ceq p(assign-p(S,T), T2) = 
+      (if T = T2 then hp(S,T) else p(S,T2) fi)
+    if c-assign-p(S,T) .
+  eq n(assign-p(S,T), T2) = n(S,T2) .
+  eq *(assign-p(S,T), XN) = *(S,XN) .
+  eq addrInUse(assign-p(S,T)) = addrInUse(S) .
+  eq hp(assign-p(S,T), T2) = hp(S,T2) .
+  ceq assign-p(S,T) = S if not c-assign-p(S,T) .
+
+  op c-assign-v : Sys UInt -> Bool
+  eq c-assign-v(S,T) = (pc(S,T) = l4) .
+  eq counter(assign-v(S,T)) = counter(S) .
+  ceq pc(assign-v(S,T), T2) = 
+      (if T = T2 then l5 else pc(S,T2) fi)
+    if c-assign-v(S,T) .
+  ceq v(assign-v(S,T), T2) = 
+      (if T = T2 then *(S,p(S,T)) else v(S,T2) fi)
+    if c-assign-v(S,T) .
+  eq p(assign-v(S,T), T2) = p(S,T2) .
+  eq n(assign-v(S,T), T2) = n(S,T2) .
+  eq *(assign-v(S,T), XN2) = *(S,XN2) .
+  eq addrInUse(assign-v(S,T)) = addrInUse(S) .
+  eq hp(assign-v(S,T), T2) = hp(S,T2) .
+  ceq assign-v(S,T) = S if not c-assign-v(S,T) .
+
+  op c-assign-n : Sys UInt UInt -> Bool
+  eq c-assign-n(S,T,V) = 
+    (pc(S,T) = l5 and v(S,T) = V) .
+  eq counter(assign-n(S,T,V)) = counter(S) .
+  ceq pc(assign-n(S,T,V), T2) = 
+      (if T = T2 then l6 else pc(S,T2) fi)
+    if c-assign-n(S,T,V) .
+  eq v(assign-n(S,T,V), T2) = v(S,T2) .
+  eq p(assign-n(S,T,V), T2) = p(S,T2) .
+  eq n(assign-n(S,T,V), T2) = n(S,T2) .
+  ceq *(assign-n(S,T,V), XN) = 
+      (if XN = n(S,T) then (V + 1) else *(S,XN) fi)
+    if c-assign-n(S,T,V) .
+  eq addrInUse(assign-n(S,T,V)) = addrInUse(S) .
+  eq hp(assign-n(S,T,V), T2) = hp(S,T2) .
+  ceq assign-n(S,T,V) = S if not c-assign-n(S,T,V) .
+
+  op c-cas : Sys UInt -> Bool
+  eq c-cas(S,T) = (pc(S,T) = l6) .
+  ceq counter(cas(S,T)) = 
+     (if counter(S) = p(S,T) then n(S,T) else counter(S) fi)
+    if c-cas(S,T) .
+  ceq pc(cas(S,T), T2) =
+     (if T = T2 
+      then (if counter(S) = p(S,T) then l7 else l2 fi) 
+      else pc(S,T2) fi)
+    if c-cas(S,T) .
+  eq v(cas(S,T), T2) = v(S,T2) .
+  eq p(cas(S,T), T2) = p(S,T2) .
+  eq n(cas(S,T), T2) = n(S,T2) .
+  eq *(cas(S,T), XN)  = *(S,XN) .
+  eq addrInUse(cas(S,T)) = addrInUse(S) .
+  eq hp(cas(S,T), T2) = hp(S,T2) .
+  ceq cas(S,T) = S if not c-cas(S,T) .
+
+
+  op c-reclaim : Sys UInt Addr -> Bool
+  eq c-reclaim(S,T,X) = (pc(S,T) = l7 and p(S,T) = X) .
+  eq counter(reclaim(S,T,X)) = counter(S) .
+  ceq pc(reclaim(S,T,X), T2) =
+     (if T = T2 then l1 else pc(S,T2) fi) 
+    if c-reclaim(S,T,X) .
+  eq v(reclaim(S,T,X), T2) = v(S,T2) .
+  eq p(reclaim(S,T,X), T2) = p(S,T2) .
+  eq n(reclaim(S,T,X), T2) = n(S,T2) .
+  ceq *(reclaim(S,T,X), XN) = 
+     (if XN = X then null else *(S,XN) fi)
+    if c-reclaim(S,T,X) .
+  ceq addrInUse(reclaim(S,T,X)) = delete(X,addrInUse(S))
+    if c-reclaim(S,T,X) .
+  ceq reclaim(S,T,X) = S if not c-reclaim(S,T,X) .
+}
+
+mod* PROP {
+  pr(SHARED-COUNTER-INC)
+  var T : UInt
+  var S : Sys
+  op safety1 : Sys UInt -> Bool
+  eq safety1(S,T) = (pc(S,T) = l4) 
+    implies not(*(S,p(S,T)) = null or p(S,T) = nil) .
+}
+
+eof
+load sc-without-hp.cafe .

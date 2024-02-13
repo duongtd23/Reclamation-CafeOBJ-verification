@@ -1,4 +1,5 @@
 ipsgopen PROP .
+  :enableCsFirst(15) .
   inv addruse-lm3(S:Sys, T:UInt, X:Addr) .
   inv p5(S:Sys, T:UInt, T2:UInt, X:Addr) .
   generate p12(S:Sys, T:UInt, T2:UInt, X:Addr) induction on S:Sys .
@@ -6,5 +7,5 @@ close
 set-output p12.cafe .
 :save-proof .
 eof
--- set maxLogConn = 20 .
+
 load inputs/input12.cafe .
