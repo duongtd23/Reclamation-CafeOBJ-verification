@@ -16,6 +16,8 @@ load $DIR/inputs/input-rc-detach.cafe .
 load $DIR/inputs/input-rc-lm.cafe .
 load $DIR/inputs/input-safety1.cafe .
 load $DIR/inputs/input1.cafe .
+load $DIR/inputs/input11.cafe .
+load $DIR/inputs/input12.cafe .
 q
 q
 EOF

@@ -11,18 +11,18 @@ This repository contains the formal verification of two concurrent programs: (1)
 ## Executing proof scores
 Proof scores are executable (CafeOBJ code). To install CafeOBJ, please isit https://cafeobj.org/.
 You can try to run the proof score of `safety2` of the Shared counter program by the following commands:
-```
-cafeobj common.cafe shared-counter/sc-hp.cafe shared-counter/properties.cafe shared-counter/safety2.cafe 
+```bash
+$ cafeobj common.cafe shared-counter/sc-hp.cafe shared-counter/properties.cafe shared-counter/safety2.cafe 
 ```
 
 Note that some proofs are run slowly with CafeOBJ, and usually run faster with CafeInMaude:
 
-```
-maude -allow-files path-to-CafeInMaude/src/cafeInMaude.maude
-load common.cafe .
-load shared-counter/sc-hp.cafe .
-load shared-counter/properties.cafe .
-load shared-counter/safety2.cafe .
+```bash
+$ maude -allow-files path-to-CafeInMaude/src/cafeInMaude.maude
+IPSG> load common.cafe .
+IPSG> load shared-counter/sc-hp.cafe .
+IPSG> load shared-counter/properties.cafe .
+IPSG> load shared-counter/safety2.cafe .
 ```
 
 CafeInMaude  can be downloaded from here: https://github.com/ariesco/CafeInMaude.
