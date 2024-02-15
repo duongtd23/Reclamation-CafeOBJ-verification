@@ -8,7 +8,7 @@ DIR=$(pwd)
 # echo "Please wait."
 # echo ""
 
-$MAUDE_PATH -allow-files $IPSG_PATH/ipsg-without-run.maude <<EOF
+$MAUDE_PATH -allow-files $IPSG_PATH/ipsg_without_run.maude <<EOF
 cd $DIR
 erew run .
 load ../common.cafe sc-hp.cafe .
